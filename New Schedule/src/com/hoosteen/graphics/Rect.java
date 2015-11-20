@@ -21,6 +21,12 @@ public class Rect{
 		this.height = height;
 	}
 	
+	/**
+	 * Checks if this Rect contains a point (X, Y)
+	 * @param x coordinate
+	 * @param y coordinate
+	 * @return result
+	 */
 	public boolean contains(int xx, int yy){
 		if(xx >= x && xx <= (x+width)){
 			if(yy >= y && yy <=(y+height)){
@@ -46,6 +52,12 @@ public class Rect{
 		return height;
 	}
 	
+	/**
+	 * Returns a new, offset rectangle
+	 * @param offsetX
+	 * @param offsetY
+	 * @return new Rect, offset by the input parameters
+	 */
 	public Rect offset(int offsetX, int offsetY){
 		return new Rect(x + offsetX, y + offsetY, width, height);
 	}
@@ -58,6 +70,11 @@ public class Rect{
 		g.drawRect(x, y, width, height);
 	}
 	
+	/**
+	 * Draws a weighted rectangle
+	 * @param Graphics object to draw on
+	 * @param pixel thickness of outline
+	 */
 	public void draw(Graphics g, int weight){
 		for(int i = 0; i < weight; i++){
 			g.drawRect(x + i, y + i, width - i*2, height -  i*2);			

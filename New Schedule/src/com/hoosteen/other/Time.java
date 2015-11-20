@@ -105,6 +105,7 @@ public class Time implements Serializable{
 		return result;
 	}
 	
+	//I don't like this being here. That's why its not documented
 	public static Time.Day[] getDays(String daysString){
 		ArrayList<Time.Day> daysList = new ArrayList<Time.Day>();
 		for(Time.Day d : Time.Day.values()){

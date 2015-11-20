@@ -142,7 +142,7 @@ public class Schedule extends Tree{
 	 * @param color
 	 */
 	public void addCourseById(String course, Color color){
-		String url = URLMaker.getCourseByIdURL(course);
+		String url = URLMaker.getCourseURL(course);
 		try {
 			Document doc = (Document) Jsoup.connect(url).get();
 			readDocument(doc, color);

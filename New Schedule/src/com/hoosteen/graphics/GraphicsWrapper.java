@@ -13,7 +13,11 @@ import java.awt.geom.Rectangle2D;
  */
 public class GraphicsWrapper {
 	
+	/**
+	 * Graphics object on which to draw on
+	 */
 	protected Graphics g;
+	private FontMetrics fm;
 	
 	
 	/**
@@ -21,6 +25,7 @@ public class GraphicsWrapper {
 	 */
 	public GraphicsWrapper(Graphics g){
 		this.g = g;
+		fm = g.getFontMetrics();
 	}
 	
 	/**
@@ -31,10 +36,7 @@ public class GraphicsWrapper {
 	 */
 	public void drawString(String s, Rect r){
 		
-		FontMetrics fm = g.getFontMetrics();
-		
 		int y = r.getHeight()/2 + r.getY() - (fm.getAscent() + fm.getDescent())/2 + fm.getAscent();
-		
 		g.drawString(s, r.getX() + 5, y);
 	}
 	
@@ -56,7 +58,7 @@ public class GraphicsWrapper {
 		int centerX = r.getX() + r.getWidth() /2;
 		int centerY = r.getY() + r.getHeight() /2;
 
-		int lineHeight = g.getFontMetrics().getAscent();
+		int lineHeight = fm.getAscent();
 		
 		String[] lines = s.split("\n");
 		double ctr = 0;
@@ -76,9 +78,7 @@ public class GraphicsWrapper {
 	 * @param centerX
 	 * @param centerY
 	 */
-	public void drawCenteredString(String s, int centerX, int centerY){
-		FontMetrics fm = g.getFontMetrics();
-		
+	public void drawCenteredString(String s, int centerX, int centerY){		
 		Rectangle2D bounds = fm.getStringBounds(s, g);
 		
 		int x = (int)(centerX - bounds.getWidth()/2);
@@ -100,7 +100,7 @@ public class GraphicsWrapper {
 	}
 	
 	public void fillRect(int x, int y, int width, int height){
-		new Rect(x,y,width,height).fill(g);
+		g.fillRect(x, y, width, height);
 	}
 	
 	public void fillRect(Rect r){

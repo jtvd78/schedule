@@ -38,6 +38,10 @@ public class Circle {
 		return radius;
 	}
 
+	/**
+	 * Draws the circle
+	 * @param Graphics object to draw on
+	 */
 	public void draw(Graphics g) {
 		g.fillOval(x - radius, y - radius,radius*2, radius*2);
 	}
