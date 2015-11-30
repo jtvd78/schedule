@@ -12,9 +12,9 @@ import javax.swing.JComponent;
 
 import com.hoosteen.graphics.GraphicsWrapper;
 import com.hoosteen.graphics.Rect;
-import com.hoosteen.other.Time;
 import com.hoosteen.schedule.ClassTime;
 import com.hoosteen.schedule.Schedule;
+import com.hoosteen.schedule.Time;
 import com.hoosteen.tree.Node;
 import com.hoosteen.tree.Tree;
 

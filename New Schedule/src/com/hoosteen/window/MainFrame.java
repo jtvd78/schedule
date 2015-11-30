@@ -11,7 +11,7 @@ import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import com.hoosteen.other.Settings;
+import com.hoosteen.helper.Settings;
 import com.hoosteen.schedule.Schedule;
 import com.hoosteen.tree.ScheduleLoader;
 

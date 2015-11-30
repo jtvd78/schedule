@@ -9,10 +9,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import com.hoosteen.other.GenEdSubcat;
-import com.hoosteen.other.Time;
+import com.hoosteen.helper.GenEdSubcat;
 import com.hoosteen.schedule.ClassTime;
 import com.hoosteen.schedule.Schedule;
+import com.hoosteen.schedule.Time;
 
 /**
  * Creates 

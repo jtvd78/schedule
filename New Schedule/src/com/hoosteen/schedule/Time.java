@@ -1,4 +1,4 @@
-package com.hoosteen.other;
+package com.hoosteen.schedule;
 
 import java.io.Serializable;
 import java.util.ArrayList;

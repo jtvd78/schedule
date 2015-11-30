@@ -5,7 +5,7 @@ import java.awt.Color;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.hoosteen.other.Tools;
+import com.hoosteen.helper.Tools;
 import com.hoosteen.tree.Node;
 
 

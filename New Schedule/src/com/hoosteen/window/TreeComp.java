@@ -23,7 +23,7 @@ import javax.swing.SwingUtilities;
 import com.hoosteen.graphics.Circle;
 import com.hoosteen.graphics.GraphicsWrapper;
 import com.hoosteen.graphics.Rect;
-import com.hoosteen.other.Settings;
+import com.hoosteen.helper.Settings;
 import com.hoosteen.schedule.ClassTime;
 import com.hoosteen.schedule.Schedule;
 import com.hoosteen.tree.Node;

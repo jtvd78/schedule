@@ -9,10 +9,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import com.hoosteen.other.GenEdSubcat;
-import com.hoosteen.other.Time;
-import com.hoosteen.other.Tools;
-import com.hoosteen.other.URLMaker;
+import com.hoosteen.helper.GenEdSubcat;
+import com.hoosteen.helper.Tools;
+import com.hoosteen.helper.URLMaker;
 import com.hoosteen.tree.Node;
 import com.hoosteen.tree.Tree;
 

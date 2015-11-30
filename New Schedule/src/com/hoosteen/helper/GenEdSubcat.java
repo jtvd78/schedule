@@ -1,4 +1,4 @@
-package com.hoosteen.other;
+package com.hoosteen.helper;
 
 /**
  * Enum representing the possible subcategories in which a gen-ed can reside

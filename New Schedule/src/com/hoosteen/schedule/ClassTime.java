@@ -15,8 +15,7 @@ import javax.swing.JTextArea;
 
 import org.jsoup.nodes.Element;
 
-import com.hoosteen.other.Time;
-import com.hoosteen.other.Tools;
+import com.hoosteen.helper.Tools;
 import com.hoosteen.tree.Node;
 import com.hoosteen.tree.Node.DescriptionAction;
 

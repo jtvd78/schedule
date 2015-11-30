@@ -1,4 +1,4 @@
-package com.hoosteen.other;
+package com.hoosteen.helper;
 
 import java.awt.Color;
 import java.util.Random;
