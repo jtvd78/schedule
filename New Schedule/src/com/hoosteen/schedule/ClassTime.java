@@ -143,25 +143,6 @@ public class ClassTime extends Node{
 	}
 	
 	/**
-	 * Action that will display the description of a ClassTime
-	 */
-	class DescriptionAction extends AbstractAction{
-
-		public DescriptionAction(){
-			super("Show Descrition");
-		}			
-		
-		public void actionPerformed(ActionEvent e) {				
-			JTextArea jta = new JTextArea(getDescription());
-			jta.setLineWrap(true);
-			jta.setWrapStyleWord(true);
-            JScrollPane jsp = new JScrollPane(jta);
-            jsp.setPreferredSize(new Dimension(480, 320));
-            JOptionPane.showMessageDialog( null, jsp, ClassTime.this.toString(), JOptionPane.DEFAULT_OPTION);			
-		}
-	}
-	
-	/**
 	 * Action which will remove any nodes in the current tree that conflicts with the classtime. 
 	 * Assumes that n is a classtime. 
 	 * @author Justin
