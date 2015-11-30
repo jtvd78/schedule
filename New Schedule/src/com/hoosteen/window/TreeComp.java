@@ -27,7 +27,6 @@ import com.hoosteen.helper.Settings;
 import com.hoosteen.schedule.ClassTime;
 import com.hoosteen.schedule.Schedule;
 import com.hoosteen.tree.Node;
-import com.hoosteen.tree.Tree;
 
 //Join TreeComp and JScrollPane
 //textArea.setCaretPosition(textArea.getDocument().getLength());
@@ -45,7 +44,7 @@ public class TreeComp extends JPanel {
 	private Color otherColor = Color.WHITE;
 	//End Settings
 	
-	Tree tree;
+	Node tree;
 	Frame parentFrame;
 	
 	//Node currently selected. If there is no node which is currently selected, this should be null
@@ -64,7 +63,7 @@ public class TreeComp extends JPanel {
 	 * @param ParentFrame
 	 * @param Tree to draw
 	 */
-	public TreeComp(MainFrame parentFrame, Tree tree){		
+	public TreeComp(MainFrame parentFrame, Node tree){		
 		
 		circleRadius = Settings.circleRadius;
 		boxSize = Settings.boxSize;

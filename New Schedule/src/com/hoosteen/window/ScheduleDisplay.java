@@ -16,7 +16,6 @@ import com.hoosteen.schedule.ClassTime;
 import com.hoosteen.schedule.Schedule;
 import com.hoosteen.schedule.Time;
 import com.hoosteen.tree.Node;
-import com.hoosteen.tree.Tree;
 
 /**
  * Displays a Schedule

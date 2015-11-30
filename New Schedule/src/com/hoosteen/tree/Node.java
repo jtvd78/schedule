@@ -33,6 +33,15 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable{
 	 */
 	private ArrayList<Node> nodeList = new ArrayList<Node>();
 	
+	public Node(){
+		//Default constructor
+		//Expanded is already false, don't have to set that here. 
+	}
+	
+	public Node(boolean expanded){
+		this.expanded = expanded;
+	}
+	
 	/**
 	 * Moves a child node a number of indexes
 	 * @param Node to move
@@ -112,6 +121,14 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable{
 	 * @return boolean, transparent or not. 
 	 */
 	public boolean isTransparent(){
+		
+		//The top node is never transparent
+		//I wouldn't say never, but for the purposes of this class, it wont
+		//I will come back and change this if I need to. 
+		if(getLevel() == 0){
+			return false;
+		}
+		
 		return selected || parent.isTransparent();
 	}
 	
@@ -147,6 +164,9 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable{
 	 * @return The level of the node, in reference to the first node;
 	 */
 	public int getLevel(){
+		if(parent == null){
+			return 0;
+		}
 		return 1+parent.getLevel();
 	}	
 	
@@ -240,6 +260,15 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable{
 	 *  Essentially, it is the number of nodes from the top that this node is
 	 */
 	public int getNodeNumber(){
+		
+		//Just deal with this. Should be changed later, but whatevs.
+		//This just means that the top node (which should not be visible),
+		//has a visible node number of -1
+		//so it is not displayed. 
+		if(getLevel() == 0){
+			return -1;
+		}
+		
 		int out = 0;
 		
 		int index = parent.getIndex(this);
@@ -315,12 +344,12 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable{
 		return toString();
 	}
 	
-	public Tree getTree(){
+	public Node getTree(){
 		Node topNode = this;
 		while(topNode.getLevel() != 0){
 			topNode = topNode.parent;
 		}
-		return (Tree)topNode;
+		return (Node)topNode;
 	}	
 
 	public class DescriptionAction extends AbstractAction{

@@ -13,9 +13,12 @@ import com.hoosteen.helper.GenEdSubcat;
 import com.hoosteen.helper.Tools;
 import com.hoosteen.helper.URLMaker;
 import com.hoosteen.tree.Node;
-import com.hoosteen.tree.Tree;
 
-public class Schedule extends Tree{
+public class Schedule extends Node{
+	
+	public Schedule(){
+		super(true);
+	}
 	
 	/**
 	 * Merges this schedule with a given schedule
