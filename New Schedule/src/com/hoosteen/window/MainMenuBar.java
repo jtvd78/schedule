@@ -15,8 +15,8 @@ import javax.swing.KeyStroke;
 import com.hoosteen.helper.GenEdSubcat;
 import com.hoosteen.helper.Tools;
 import com.hoosteen.schedule.Schedule;
+import com.hoosteen.schedule.ScheduleLoader;
 import com.hoosteen.schedule.Time;
-import com.hoosteen.tree.ScheduleLoader;
 
 public class MainMenuBar extends JMenuBar{
 	

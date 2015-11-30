@@ -1,4 +1,4 @@
-package com.hoosteen.tree;
+package com.hoosteen.schedule;
 
 import java.awt.Color;
 import java.io.File;
@@ -10,9 +10,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import com.hoosteen.helper.GenEdSubcat;
-import com.hoosteen.schedule.ClassTime;
-import com.hoosteen.schedule.Schedule;
-import com.hoosteen.schedule.Time;
 
 /**
  * Creates 

@@ -13,7 +13,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import com.hoosteen.helper.Settings;
 import com.hoosteen.schedule.Schedule;
-import com.hoosteen.tree.ScheduleLoader;
+import com.hoosteen.schedule.ScheduleLoader;
 
 /**
  * This is the main window of the program. The main method is here. 
