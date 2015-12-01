@@ -159,7 +159,11 @@ public class ScheduleDisplay extends JComponent{
 		void drawClassTime(ClassTime ct){
 			
 			//Outline color is red, unless the class is a lecture. Then it is green.
-			Color outline = ct.getOutlineColor();
+			Color outline = Color.RED;
+			if(ct.isLecture()){
+				outline = Color.GREEN;
+			}
+			
 			
 			for(Time.Day d : ct.getDayList()){
 				

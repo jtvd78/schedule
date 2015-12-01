@@ -16,12 +16,19 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import com.hoosteen.helper.Tools;
+
 /**
- * Abstract class. A member of a tree. 
+ * Abstract class. A Node is a member of a figurative tree. There is
+ * no tree object, but each node can function as a tree if it has no parent.
+ * It can be expanded, selected, and hidden. 
+ * Nodes can contain any number of other nodes
+ * Nodes are Iterable, Serializable, and Comparable
+ *  
  * @author Justin
  *
  */
-public abstract class Node implements Serializable, Iterable<Node>, Comparable{
+public abstract class Node implements Serializable, Iterable<Node>, Comparable<Node>{
 	
 	protected Node parent;	
 	private boolean hidden = true;
@@ -33,6 +40,8 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable{
 	 */
 	private ArrayList<Node> nodeList = new ArrayList<Node>();
 	
+	protected static JPopupMenu popupMenu = new JPopupMenu();
+	
 	public Node(){
 		//Default constructor
 		//Expanded is already false, don't have to set that here. 
@@ -43,9 +52,17 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable{
 	}
 	
 	/**
-	 * Moves a child node a number of indexes
-	 * @param Node to move
+	 * Moves this node's index in its parent by the parameter
 	 * @param Number of indexes to move
+	 */
+	public void move(int adj){
+		parent.moveChildNode(this, adj);
+	}	
+	
+	/**
+	 * Moves a child node a number of indexes
+	 * @param n Node to move
+	 * @param adj Number of indexes to move
 	 */
 	private void moveChildNode(Node n, int adj){
 		System.out.println(adj);
@@ -59,14 +76,6 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable{
 			}
 		}
 	}
-	
-	/**
-	 * Moves this node's index in its parent by the parameter
-	 * @param Number of indexes to move
-	 */
-	public void move(int adj){
-		parent.moveChildNode(this, adj);
-	}	
 	
 	/**
 	 * @return The node above this one within its parent
@@ -107,6 +116,7 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable{
 	
 	/**
 	 * Sets the value of selected to the parameter
+	 * Also sets the child nodes to the same value
 	 * @param True or false
 	 */
 	public void setSelected(boolean selected){
@@ -150,7 +160,7 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable{
 	}
 	
 	/** 
-	 * Sets this node and all sub-nodes as the argument
+	 * Sets this node and all sub-nodes as the parameter
 	 * @param hidden
 	 */
 	public void setHidden(boolean hidden){
@@ -161,7 +171,8 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable{
 	}
 	
 	/**
-	 * @return The level of the node, in reference to the first node;
+	 * @return The level of the node, in reference to the first node
+	 * A Node with no parent will return 0
 	 */
 	public int getLevel(){
 		if(parent == null){
@@ -171,29 +182,39 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable{
 	}	
 	
 	/**
-	 * @param Sets expanded to argument e
+	 * @param Sets expanded to input boolean
 	 */
 	public void setExpanded(boolean e){
 		expanded = e;
 	}	
 	
 	/**
-	 * @return Returns expanded
+	 * @return Returns boolean expanded
 	 */
 	public boolean isExpanded(){
 		return expanded;
 	}
 	
 	/**
-	 * Sets expanded to the opposite of expanded
+	 * Sets expanded to the opposite of its current state
 	 */
 	public void toggleExpanded(){
 		expanded = !expanded;
 	}
 	
 	/**
+	 * @param Index to retrieve
+	 * @return Returns node at a specific index
+	 * @throws NodeNotFoundException 
+	 */
+	public Node getNode(int index){
+		return nodeList.get(index);
+	}	
+	
+	/**
 	 * @param Node to get the index of
 	 * @return The index of n, within the current node. Returns -1 if this node does not contain n.
+	 * @throws NodeNotFoundException 
 	 */
 	public int getIndex(Node n){
 		int ctr = 0;
@@ -204,7 +225,7 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable{
 			ctr++;
 		}
 		return -1;
-	}	
+	}
 	
 	/**
 	 * @return Returns color of Node. Defaults to GREEN. 
@@ -241,19 +262,11 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable{
 	}
 	
 	/** 
-	 * @return Size of this node
+	 * @return Size of this node. The amount of nodes contained within it
 	 */
 	public int size(){
 		return nodeList.size();
 	}
-	
-	/**
-	 * @param Index to retrieve
-	 * @return Returns node at a specific index
-	 */
-	public Node getNode(int index){
-		return nodeList.get(index);
-	}		
 
 	/**
 	 * @return Returns the index of the node, relative to the first node.
@@ -261,7 +274,6 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable{
 	 */
 	public int getNodeNumber(){
 		
-		//Just deal with this. Should be changed later, but whatevs.
 		//This just means that the top node (which should not be visible),
 		//has a visible node number of -1
 		//so it is not displayed. 
@@ -280,6 +292,7 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable{
 	
 	/**
 	 * Returns the visible node under this node, which corresponds to the argument nodeIndex. 
+	 * Starts with 0
 	 * @param Node number to get
 	 * @return The desired node
 	 */
@@ -326,7 +339,7 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable{
 	}
 
 	/**
-	 * Removes this node from its parent, then removes itself if the parent is empty. 
+	 * Removes this node from its parent, then removes the parent itself if it is empty. 
 	 */	
 	public void remove() {
 		parent.removeNode(this);
@@ -344,38 +357,30 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable{
 		return toString();
 	}
 	
-	public Node getTree(){
+	/**
+	 * @return The topmost node in the Node Hierarchy. Level of the returned node is 0
+	 */
+	public Node getTopNode(){
 		Node topNode = this;
 		while(topNode.getLevel() != 0){
 			topNode = topNode.parent;
 		}
-		return (Node)topNode;
+		return topNode;
 	}	
 
-	public class DescriptionAction extends AbstractAction{
-		
-		public DescriptionAction(){
-			super("Show Descrition");
-		}			
-		
-		public void actionPerformed(ActionEvent e) {				
-			JTextArea jta = new JTextArea(getDescription());
-			jta.setLineWrap(true);
-			jta.setWrapStyleWord(true);
-            JScrollPane jsp = new JScrollPane(jta);
-            jsp.setPreferredSize(new Dimension(480, 320));
-            JOptionPane.showMessageDialog( null, jsp, Node.this.toString(), JOptionPane.DEFAULT_OPTION);			
-		}
-	}
-
 	public void showPopupMenu(Component comp, int x, int y) {
-		JPopupMenu jpu = new JPopupMenu();
-		jpu.add(new DescriptionAction());
-		jpu.show(comp, x, y);
+		
+		popupMenu.removeAll();
+		popupMenu.add(new AbstractAction("Show Description"){
+			public void actionPerformed(ActionEvent e) {
+				Tools.displayText(getDescription(), toString());
+			}	
+		});
+		popupMenu.show(comp, x, y);
 	}
 	
 	@Override
-	public int compareTo(Object o) {
+	public int compareTo(Node o) {
 		return toString().compareTo(o.toString());
 	}
 }

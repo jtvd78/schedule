@@ -2,24 +2,13 @@ package com.hoosteen.schedule;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-
 import org.jsoup.nodes.Element;
 
 import com.hoosteen.helper.Tools;
 import com.hoosteen.tree.Node;
-import com.hoosteen.tree.Node.DescriptionAction;
-
-
 /**
  * ClassTime. Can be a lecture or not, but has a start time, end time, and a set of days on which it occurs on. 
  * @author justi
@@ -95,22 +84,12 @@ public class ClassTime extends Node{
 	public Color getColor(){
 		return parent.getColor();
 	}
-	
-	public Color getOutlineColor(){
-		if(lecture){
-			return Color.GREEN;
-		}
-		return Color.RED;
-	}
 	 
 	public boolean conflicts(ClassTime test){
-		
-		
 		//If two classTimes are the same, then they do no conflict, since they are the same classTime;
 		if(this == test){
 			return false;
-		}
-		
+		}		
 		
 		for(Time.Day day : days){
 			for(Time.Day testDay : test.getDayList()){
@@ -136,26 +115,20 @@ public class ClassTime extends Node{
 	}
 		
 	public void showPopupMenu(Component comp, int x, int y) {
-		JPopupMenu jpu = new JPopupMenu();
-		jpu.add(new DescriptionAction());
-		jpu.add(new ConflictAction());
-		jpu.show(comp, x, y);
-	}
-	
-	/**
-	 * Action which will remove any nodes in the current tree that conflicts with the classtime. 
-	 * Assumes that n is a classtime. 
-	 * @author Justin
-	 */
-	class ConflictAction extends AbstractAction{
+		popupMenu.removeAll();
+		popupMenu.add(new AbstractAction("Show Description"){
+			public void actionPerformed(ActionEvent e) {				
+				Tools.displayText(getDescription(), toString());
+			}
+		});
 		
-		public ConflictAction(){
-			super("Remove conflicting classtimes");
-		}			
-		
-		public void actionPerformed(ActionEvent e) {
-			((Schedule)(getTree())).removeConflictingClasstimes(ClassTime.this);
-			//No repaint here. Need to add it somehow
-		}
+		//Action which will remove any nodes in the current tree that conflicts with the classtime. 
+		popupMenu.add(new AbstractAction("Remove Conflicting Classtimes"){
+			public void actionPerformed(ActionEvent e) {
+				((Schedule)(getTopNode())).removeConflictingClasstimes(ClassTime.this);
+				//No repaint here. Need to add it somehow
+			}
+		});
+		popupMenu.show(comp, x, y);
 	}
 }

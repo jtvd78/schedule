@@ -1,7 +1,12 @@
 package com.hoosteen.helper;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.util.Random;
+
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 /**
  * Some random stuff that I use. 
@@ -37,5 +42,14 @@ public class Tools {
 	public static Color getRandomColor(){
 		Random random = new Random();		
 		return new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
+	}
+
+	public static void displayText(String description, String title) {
+		JTextArea jta = new JTextArea(description);
+		jta.setLineWrap(true);
+		jta.setWrapStyleWord(true);
+        JScrollPane jsp = new JScrollPane(jta);
+        jsp.setPreferredSize(new Dimension(480, 320));
+        JOptionPane.showMessageDialog( null, jsp, title, JOptionPane.DEFAULT_OPTION);	
 	}
 }
