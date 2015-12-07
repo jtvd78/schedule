@@ -1,10 +1,7 @@
 package com.hoosteen.schedule;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
 
-import javax.swing.AbstractAction;
 import org.jsoup.nodes.Element;
 
 import com.hoosteen.helper.Tools;
@@ -112,23 +109,5 @@ public class ClassTime extends Node{
 	
 	public String toString(){
 		return (lecture ? "Lecture " : "Discussion ") + "(" + startTime + " - " + endTime + " : " + Tools.arrToString(days,"") + ")";
-	}
-		
-	public void showPopupMenu(Component comp, int x, int y) {
-		popupMenu.removeAll();
-		popupMenu.add(new AbstractAction("Show Description"){
-			public void actionPerformed(ActionEvent e) {				
-				Tools.displayText(getDescription(), toString());
-			}
-		});
-		
-		//Action which will remove any nodes in the current tree that conflicts with the classtime. 
-		popupMenu.add(new AbstractAction("Remove Conflicting Classtimes"){
-			public void actionPerformed(ActionEvent e) {
-				((Schedule)(getTopNode())).removeConflictingClasstimes(ClassTime.this);
-				//No repaint here. Need to add it somehow
-			}
-		});
-		popupMenu.show(comp, x, y);
 	}
 }

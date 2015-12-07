@@ -367,17 +367,6 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable<N
 		}
 		return topNode;
 	}	
-
-	public void showPopupMenu(Component comp, int x, int y) {
-		
-		popupMenu.removeAll();
-		popupMenu.add(new AbstractAction("Show Description"){
-			public void actionPerformed(ActionEvent e) {
-				Tools.displayText(getDescription(), toString());
-			}	
-		});
-		popupMenu.show(comp, x, y);
-	}
 	
 	@Override
 	public int compareTo(Node o) {

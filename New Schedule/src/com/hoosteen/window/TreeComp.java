@@ -24,6 +24,7 @@ import com.hoosteen.graphics.Circle;
 import com.hoosteen.graphics.GraphicsWrapper;
 import com.hoosteen.graphics.Rect;
 import com.hoosteen.helper.Settings;
+import com.hoosteen.helper.Tools;
 import com.hoosteen.schedule.ClassTime;
 import com.hoosteen.schedule.Schedule;
 import com.hoosteen.tree.Node;
@@ -272,6 +273,8 @@ public class TreeComp extends JPanel {
 		}
 	}
 	
+	static JPopupMenu popupMenu = new JPopupMenu();
+	
 	/**
 	 * Called when a node is right clicked
 	 * @param Node right clicked
@@ -279,7 +282,24 @@ public class TreeComp extends JPanel {
 	 * @param Y coordinate of click
 	 */
 	private void nodeRightClicked(Node n, int x, int y){	
-		n.showPopupMenu(this,x,y);
+		popupMenu.removeAll();
+		
+		if(n instanceof ClassTime){
+			//Action which will remove any nodes in the current tree that conflicts with the classtime. 
+			popupMenu.add(new AbstractAction("Remove Conflicting Classtimes"){
+				public void actionPerformed(ActionEvent e) {
+					((Schedule)(n.getTopNode())).removeConflictingClasstimes((ClassTime)n);
+					//No repaint here. Need to add it somehow
+				}
+			});
+		}
+		
+		popupMenu.add(new AbstractAction("Show Description"){
+			public void actionPerformed(ActionEvent e) {
+				Tools.displayText(n.getDescription(), n.toString());
+			}	
+		});
+		popupMenu.show(this, x, y);
 		repaint();
 	}
 	
@@ -420,7 +440,6 @@ public class TreeComp extends JPanel {
 		 * Keyboard input
 		 */
 		public void keyPressed(KeyEvent e) {
-			System.out.println("HEYYOO");
 			switch(e.getKeyCode()){
 			case KeyEvent.VK_UP:  
 				
@@ -443,6 +462,10 @@ public class TreeComp extends JPanel {
 				}
 				
 				break;
+			case KeyEvent.VK_SPACE:
+				if(selectedNode!=null){
+					selectedNode.toggleHidden();
+				}
 			}
 			parentFrame.repaint();
 			

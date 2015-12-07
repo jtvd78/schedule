@@ -25,12 +25,7 @@ public class ScheduleLoader {
 	 * @return
 	 */
 	public static Schedule getDefaultSchedule(){
-		Schedule schedule;
-		if((schedule = loadSchedule(new File(defaultSchedule))) == null){
-			schedule = makeSchedule();
-			saveSchedule(schedule, new File(defaultSchedule));
-		}
-		return schedule;
+		return makeSchedule();
 	}
 	
 	/**
