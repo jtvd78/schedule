@@ -32,8 +32,8 @@ public class ScheduleDisplay extends JComponent{
 	//Helping Variables
 	int width;
 	int height;
-	double minPerPixelX, minPerPixelY;
 	double pixelPerDayY;
+	double minPerPixelX, minPerPixelY;
 	
 	//Settings
 	int hoverTransparency = 50; //Out of 255
@@ -120,8 +120,7 @@ public class ScheduleDisplay extends JComponent{
 			
 			//Background
 			g.setColor(Color.BLACK);		
-			g.fillRect(0, 0, width, height);
-			
+			g.fillRect(0, 0, width, height);			
 			
 			//Vertical Lines
 			g.setColor(new Color(70,70,70));
@@ -138,27 +137,6 @@ public class ScheduleDisplay extends JComponent{
 		}
 		
 		/**
-		 * Draws the current time, along with a corresponding horizontal line, at the mouse's Y coordinate.
-		 */
-		void drawCurrentTime(){
-			
-			int mouseY = (int) mouse.getY();
-			
-			
-			String timeString = new Time((int)(mouseY*minPerPixelY + startTime * 60.0)).toString();
-			int stringWidth = (int) g.getFontMetrics().getStringBounds(timeString, g).getWidth();
-			Rect r = new Rect((int)mouse.getX() + 10, (int)( mouse.getY()), stringWidth + 10, 20);
-
-			g.setColor(new Color(0,0,0,128));
-			fillRect(r);
-			
-			g.setColor(Color.red);
-			g.drawLine(0, mouseY, width, mouseY);	
-			drawString(timeString, r);	
-			
-		}
-		
-		/**
 		 * Draws a ClassTime
 		 * @param to this Graphics object
 		 * @param with this ClassTime
@@ -170,8 +148,7 @@ public class ScheduleDisplay extends JComponent{
 			Color outline = Color.RED;
 			if(ct.isLecture()){
 				outline = Color.GREEN;
-			}
-			
+			}			
 			
 			for(Time.Day d : ct.getDayList()){
 				
@@ -181,11 +158,13 @@ public class ScheduleDisplay extends JComponent{
 				int ctEndMin = ct.getEndTime().toMinutes();
 				int classLengthMin = ctEndMin-ctStartMin;
 				
-				//X and Y coordinates, and Width and Height of box to be drawn for classtime
+				//Creates the Rect for this clastime
 				int ctX = (int)(day*pixelPerDayY);
 				int ctY = (int)((ctStartMin-startTime*60.0)/minPerPixelY);
 				int ctWidth = (int)pixelPerDayY;
 				int ctHeight = (int)(classLengthMin/minPerPixelY);
+				
+				Rect ctRect = new Rect(ctX, ctY, ctWidth, ctHeight);
 				
 				//Make classtime transparent
 				Color ogColor = ct.getColor();
@@ -197,17 +176,36 @@ public class ScheduleDisplay extends JComponent{
 				}			
 								
 				//Actual rectangle
-				fillRect(ctX, ctY,ctWidth, ctHeight);
+				fillRect(ctRect);
 				
 				//Outline
 				setColor(outline);
-				drawRect(ctX, ctY, ctWidth, ctHeight, 2);
+				drawRect(ctRect, 2);
 				
 				//Draw ClassTime info
 				setColor(Color.black);
 				String toDraw = ct.getSection().getCourse().getCourseID() + "\n" + ct.getSection().getSectionID();
 				drawMultiLineCenteredString(toDraw, new Rect(ctX, ctY, ctWidth, ctHeight));
 			}
+		}
+		
+		/**
+		 * Draws the current time, along with a corresponding horizontal line, at the mouse's Y coordinate.
+		 */
+		void drawCurrentTime(){
+			
+			int mouseY = (int) mouse.getY();			
+			
+			String timeString = new Time((int)(mouseY*minPerPixelY + startTime * 60.0)).toString();
+			int stringWidth = (int) g.getFontMetrics().getStringBounds(timeString, g).getWidth();
+			Rect r = new Rect((int)mouse.getX() + 10, (int)( mouse.getY()), stringWidth + 10, 20);
+
+			g.setColor(new Color(0,0,0,128));
+			fillRect(r);
+			
+			g.setColor(Color.red);
+			g.drawLine(0, mouseY, width, mouseY);	
+			drawString(timeString, r);	
 		}
 	}
 	

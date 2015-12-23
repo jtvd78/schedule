@@ -14,6 +14,14 @@ public class Rect{
 	int width;
 	int height;
 	
+	/**
+	 * Constructor. Takes (x, y) coordinate of top left point,
+	 * and a width and height 
+	 * @param x - X coordinate of top left point
+	 * @param y - Y coordinate of top left point
+	 * @param width - Width of Rect
+	 * @param height - Height of Rect
+	 */
 	public Rect(int x, int y, int width, int height){
 		this.x = x;
 		this.y = y;
@@ -82,6 +90,6 @@ public class Rect{
 	}
 	
 	public String toString(){
-		return "(" + x + "," + y + ") Width: " + width + " - Height: " + height;
+		return "(" + x + ", " + y + ") Width: " + width + " - Height: " + height;
 	}
 }

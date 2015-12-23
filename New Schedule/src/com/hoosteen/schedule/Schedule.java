@@ -78,8 +78,6 @@ public class Schedule extends Node{
 	public void removeEmptySections(){
 		ArrayList<Node> removeList = new ArrayList<Node>();
 		
-		String out = JOptionPane.showInputDialog("hi");
-		
 		for(Node course : this){
 			for(Node sec : course){
 				Section section = (Section)sec;

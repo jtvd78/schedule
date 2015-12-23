@@ -44,6 +44,11 @@ public class Tools {
 		return new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
 	}
 
+	/**
+	 * Displays a string of text within a text box
+	 * @param description - Text to display
+	 * @param title - Title of window
+	 */
 	public static void displayText(String description, String title) {
 		JTextArea jta = new JTextArea(description);
 		jta.setLineWrap(true);

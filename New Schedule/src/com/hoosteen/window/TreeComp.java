@@ -33,17 +33,22 @@ import com.hoosteen.tree.Node;
 //textArea.setCaretPosition(textArea.getDocument().getLength());
 
 public class TreeComp extends JPanel {	
+
+	//Start Color Settings
 	
-	private final int boxSize; //Width and height of expand boxes
+	private final Color fgColor = Color.WHITE;
+	private final Color bgColor = Color.BLACK;
+	private final Color textColor = Color.BLACK;
+	
+	private final Color nodeBgColor = Color.WHITE;
+	private final Color nodeOutlineColor = Color.BLACK;
+	private final Color selectedNodeColor = new Color(200,200,255,150);
+	
+	private final Color removeCircleColor = Color.RED;
+	//End Color Settings
+	
 	private final int nodeHeight; //Height of each node
-	private final int circleRadius; //Radius of close circles
 	private final int levelSpacing; // X-Spacing between each level of a tree. 
-	
-	//Start Settings
-	private Color bgColor = Color.BLACK;
-	private Color textColor = Color.BLACK;
-	private Color otherColor = Color.WHITE;
-	//End Settings
 	
 	Node tree;
 	Frame parentFrame;
@@ -66,8 +71,6 @@ public class TreeComp extends JPanel {
 	 */
 	public TreeComp(MainFrame parentFrame, Node tree){		
 		
-		circleRadius = Settings.circleRadius;
-		boxSize = Settings.boxSize;
 		nodeHeight = Settings.nodeHeight;
 		levelSpacing = Settings.levelSpacing;		
 		
@@ -131,34 +134,31 @@ public class TreeComp extends JPanel {
 			//Sets color to draw node. if node is hidden, draw white
 			setColor(node.getColor());
 			if(node.isHidden()){
-				setColor(Color.WHITE);
+				setColor(nodeBgColor);
 			}
 			fillRect(nodeRect);
 			
-			//Node border
-			setColor(bgColor);
-			drawRect(nodeRect);		
+
 			
 			//Highlight selected node
 			if(node.equals(selectedNode)){
-				setColor(new Color(200,200,255,200));
+				setColor(selectedNodeColor);
 				fillRect(nodeRect);			
 				
-				//Makes bold line around selected node
-				Rect r1 = new Rect(nodeRect.getX() + 1, nodeRect.getY() + 1, nodeRect.getWidth() - 2, nodeRect.getHeight() - 2);
-				Rect r2 = new Rect(nodeRect.getX() + 2, nodeRect.getY() + 2, nodeRect.getWidth() - 4, nodeRect.getHeight() - 4);
-				
-				setColor(otherColor);
-				drawRect(r1);
-				drawRect(r2);
+				setColor(fgColor);
+				drawRect(nodeRect,3);
 			}	
+			
+			//Node border
+			setColor(nodeOutlineColor);
+			drawRect(nodeRect);		
 			
 			//Draw node text
 			setColor(textColor);
 			drawString(node.toString(),nodeRect);		
 				
 			//Horizontal line to the left of the node
-			g.setColor(otherColor);
+			g.setColor(fgColor);
 			drawLine(ogNodeRect.getX()-levelSpacing/2-levelSpacing,ogNodeRect.getY()+nodeHeight/2, ogNodeRect.getX()-levelSpacing/2, ogNodeRect.getY()+nodeHeight/2);
 			
 			//Draw Expand box if node has children.
@@ -168,8 +168,8 @@ public class TreeComp extends JPanel {
 			
 			if(node.isExpanded() && drawChildren){				
 				//Vertical line under expand box
-				setColor(otherColor);
-				drawLine(ogNodeRect.getX()-levelSpacing/2,ogNodeRect.getY()+nodeHeight/2+boxSize/2,ogNodeRect.getX()-levelSpacing/2,ogNodeRect.getY()+nodeHeight/2+node.getExpandedNodeCount()*nodeHeight);			
+				setColor(fgColor);
+				drawLine(ogNodeRect.getX()-levelSpacing/2,ogNodeRect.getY()+nodeHeight/2+Settings.boxSize/2,ogNodeRect.getX()-levelSpacing/2,ogNodeRect.getY()+nodeHeight/2+node.getExpandedNodeCount()*nodeHeight);			
 				
 				//Draw child nodes
 				for(Node child : node){
@@ -178,7 +178,7 @@ public class TreeComp extends JPanel {
 			}
 			
 			//Draws the remove circle
-			setColor(Color.RED);
+			setColor(removeCircleColor);
 			drawCircle(getRemoveCircle(node));
 			
 			//Draws X within remove circle
@@ -198,7 +198,7 @@ public class TreeComp extends JPanel {
 			Rect r = getExpandRect(n);
 			
 			//Expand Box
-			setColor(otherColor);		
+			setColor(fgColor);		
 			fillRect(r);
 			
 			//minus
@@ -218,13 +218,14 @@ public class TreeComp extends JPanel {
 
 	
 	private Circle getRemoveCircle(Node n){
-		int x =  getWidth() - 5 - circleRadius;
+		int x =  getWidth() - 5 - Settings.circleRadius;
 		int y = (n.getNodeNumber()+1)*nodeHeight - nodeHeight/2;
-		return new Circle(x,y,circleRadius);
+		return new Circle(x,y,Settings.circleRadius);
 	}
 	
 	private Rect getExpandRect(Node n){
-		return new Rect((n.getLevel()-1)*levelSpacing + (levelSpacing)/2 - boxSize/2, n.getNodeNumber()*nodeHeight  + nodeHeight/2 -boxSize/2, boxSize,boxSize);
+		int boxSize = Settings.boxSize;
+		return new Rect((n.getLevel()-1)*levelSpacing + (levelSpacing)/2 - Settings.boxSize/2, n.getNodeNumber()*nodeHeight  + nodeHeight/2 -boxSize/2, boxSize,boxSize);
 	}
 	
 	private Rect getNodeRect(Node n){

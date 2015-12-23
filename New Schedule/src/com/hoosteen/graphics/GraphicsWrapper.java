@@ -89,7 +89,7 @@ public class GraphicsWrapper {
 	
 	/**
 	 * Sets the color to draw
-	 * @param c Color
+	 * @param c - Color to draw
 	 */
 	public void setColor(Color c){
 		g.setColor(c);
@@ -99,27 +99,36 @@ public class GraphicsWrapper {
 		g.drawLine(x1, y1, x2, y2);
 	}
 	
-	public void fillRect(int x, int y, int width, int height){
-		g.fillRect(x, y, width, height);
-	}
-	
+	/**
+	 * Fills a rectangle
+	 * @param r - Rect to fill
+	 */
 	public void fillRect(Rect r){
 		r.fill(g);
 	}
 	
+	/**
+	 * Draws a rectangle
+	 * @param r - Rect to draw
+	 */
 	public void drawRect(Rect r){
 		r.draw(g);
 	}
 	
+	/**
+	 * Draws a circle
+	 * @param c - Circle to draw
+	 */
 	public void drawCircle(Circle c){
 		c.draw(g);		
 	}
 	
+	/**
+	 * Draws a rectangle with a given outline width
+	 * @param r - Rectangle to draw
+	 * @param weight - Width of outline
+	 */
 	public void drawRect(Rect r, int weight){
 		r.draw(g, weight);
-	}
-	
-	public void drawRect(int x, int y, int width, int height, int weight){
-		new Rect(x,y,width,height).draw(g,weight);
 	}
 }
