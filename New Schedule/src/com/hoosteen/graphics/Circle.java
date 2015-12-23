@@ -29,7 +29,7 @@ public class Circle {
 	 * Determines whether a point (x, y) is contained witin this circle
 	 * @param x - X coordinate of point
 	 * @param y - Y coordinate of point
-	 * @return
+	 * @return whether or not the circle contains the point
 	 */
 	public boolean contains(int x, int y){
 		if(Math.pow((this.x - x), 2) + Math.pow((this.y -y),2) > Math.pow(radius,2)){
@@ -61,7 +61,7 @@ public class Circle {
 
 	/**
 	 * Draws the circle
-	 * @param Graphics object to draw on
+	 * @param g - Graphics object to draw on
 	 */
 	public void draw(Graphics g) {
 		g.fillOval(x - radius, y - radius,radius*2, radius*2);

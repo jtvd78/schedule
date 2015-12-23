@@ -37,8 +37,8 @@ public class ClassTime extends Node{
 	 * Creates a ClassTime starting and ending at the given times. 
 	 * The classtime is not a lecture,
 	 * and takes place on M, Tu, W, Th, and F
-	 * @param startTime
-	 * @param endTime
+	 * @param startTime - Time that the ClassTime starts at
+	 * @param endTime - Time that the ClassTime ends at
 	 */
 	public ClassTime(Time startTime, Time endTime){
 		this.startTime = startTime;

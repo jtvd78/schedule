@@ -42,7 +42,7 @@ public class ScheduleDisplay extends JComponent{
 	
 	/**
 	 * Constructor
-	 * @param Schedule to display
+	 * @param schedule - Schedule to display
 	 */
 	public ScheduleDisplay(Schedule schedule){
 		this.schedule = schedule;

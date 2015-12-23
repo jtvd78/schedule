@@ -16,8 +16,8 @@ import javax.swing.JTextArea;
 public class Tools {
 	
 	/**
-	 * @param Array to print
-	 * @param Spacer String
+	 * @param arr - Array to print
+	 * @param spacer - Spacer String to append between the array values
 	 * @return Returns each element in the array, separated by a spacer. 
 	 */
 	public static String arrToString(Object[] arr, String spacer){

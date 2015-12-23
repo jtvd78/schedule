@@ -22,6 +22,7 @@ public class GraphicsWrapper {
 	
 	/**
 	 * Creates a new Graphics Wrapper, with a graphics object g
+	 * @param g - Graphics object to wrap around
 	 */
 	public GraphicsWrapper(Graphics g){
 		this.g = g;
@@ -30,9 +31,8 @@ public class GraphicsWrapper {
 	
 	/**
 	 * Draws a string on the graphics object, centered vertically within the rectangle. 
-	 * @param String
-	 * @param Rectangle
-	 * @param Graphcis object
+	 * @param s - String to draw
+	 * @param r - Rectangle to draw within
 	 */
 	public void drawString(String s, Rect r){
 		
@@ -42,8 +42,8 @@ public class GraphicsWrapper {
 	
 	/**
 	 * Draws a string, centered within:
-	 * @param string to draw
-	 * @param rect to center within
+	 * @param s - string to draw
+	 * @param r - rect to center within
 	 */
 	public void drawCenteredString(String s, Rect r){		
 		drawCenteredString(s, r.getX() + r.getWidth() / 2, r.getY() + r.getHeight()/2);
@@ -75,8 +75,8 @@ public class GraphicsWrapper {
 	/**
 	 * Draws a string centered on the point (centerX, centerY)
 	 * @param s	String to draw
-	 * @param centerX
-	 * @param centerY
+	 * @param centerX - X Coordinate to center string on 
+	 * @param centerY - Y Coordinate to center string on 
 	 */
 	public void drawCenteredString(String s, int centerX, int centerY){		
 		Rectangle2D bounds = fm.getStringBounds(s, g);
@@ -95,6 +95,15 @@ public class GraphicsWrapper {
 		g.setColor(c);
 	}
 	
+	
+	/**
+	 * Draws a line between the input points
+	 * Wrapper for drawLine method in graphics
+	 * @param x1 - X Coordinate of first point
+	 * @param y1 - Y Coordinate of first point
+	 * @param x2 - X Coordinate of second point
+	 * @param y2 - Y Coordinate of second point
+	 */
 	public void drawLine(int x1, int y1, int x2, int y2){
 		g.drawLine(x1, y1, x2, y2);
 	}

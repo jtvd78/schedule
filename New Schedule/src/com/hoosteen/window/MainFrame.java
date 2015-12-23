@@ -44,7 +44,7 @@ public class MainFrame extends JFrame{
 	
 	/**
 	 * Its the main function, what else can I say?
-	 * @param args
+	 * @param args - Command line arguments
 	 */
 	public static void main(String[] args){
 		setNativeUI();
@@ -57,7 +57,7 @@ public class MainFrame extends JFrame{
 	/**
 	 * Creates an instance of a MainFrame, with a Tree tree. 
 	 * Mainframe includes the ScheduleDisplay on the left, and the TreeComp on the right
-	 * @param Tree to manage.
+	 * @param project - Project to manage.
 	 */
 	public MainFrame(Project project){
 		this.project = project;
@@ -115,7 +115,7 @@ public class MainFrame extends JFrame{
 
 	/**
 	 * Creates a new frame with a given project
-	 * @param project
+	 * @param project - Project to manage
 	 */
 	public static void newFrame(Project project) {
 		frameList.add(new MainFrame(project));

@@ -9,10 +9,10 @@ import java.awt.Graphics;
  */
 public class Rect{
 	
-	int x;
-	int y;
-	int width;
-	int height;
+	private int x;
+	private int y;
+	private int width;
+	private int height;
 	
 	/**
 	 * Constructor. Takes (x, y) coordinate of top left point,
@@ -31,8 +31,8 @@ public class Rect{
 	
 	/**
 	 * Checks if this Rect contains a point (X, Y)
-	 * @param x coordinate
-	 * @param y coordinate
+	 * @param xx - x coordinate
+	 * @param yy - y coordinate
 	 * @return result
 	 */
 	public boolean contains(int xx, int yy){
@@ -44,44 +44,64 @@ public class Rect{
 		return false;
 	}
 
+	/**
+	 * @return X coordinate of top-left point
+	 */
 	public int getX() {
 		return x;
 	}
-
+	
+	/**
+	 * @return Y coordinate of top-left point
+	 */
 	public int getY() {
 		return y;
 	}
 
+	/**
+	 * @return With of Rect
+	 */
 	public int getWidth() {
 		return width;
 	}
-
+	
+	/**
+	 * @return Height of Rect
+	 */
 	public int getHeight() {
 		return height;
 	}
 	
 	/**
 	 * Returns a new, offset rectangle
-	 * @param offsetX
-	 * @param offsetY
+	 * @param offsetX - Integer X to offset Rect
+	 * @param offsetY - Integer Y to offset Rect
 	 * @return new Rect, offset by the input parameters
 	 */
 	public Rect offset(int offsetX, int offsetY){
 		return new Rect(x + offsetX, y + offsetY, width, height);
 	}
 
+	/**
+	 * Fills the rectangle onto the graphics object
+	 * @param g - Graphics object to draw onto
+	 */
 	public void fill(Graphics g) {
 		g.fillRect(x, y, width, height);
 	}
 	
+	/**
+	 * Draws the rectangle onto the graphics object
+	 * @param g - Graphics object to draw onto
+	 */
 	public void draw(Graphics g) {
 		g.drawRect(x, y, width, height);
 	}
 	
 	/**
 	 * Draws a weighted rectangle
-	 * @param Graphics object to draw on
-	 * @param pixel thickness of outline
+	 * @param g - Graphics object to draw on
+	 * @param weight - Pixel thickness of outline
 	 */
 	public void draw(Graphics g, int weight){
 		for(int i = 0; i < weight; i++){
@@ -89,6 +109,7 @@ public class Rect{
 		}
 	}
 	
+	@Override
 	public String toString(){
 		return "(" + x + ", " + y + ") Width: " + width + " - Height: " + height;
 	}

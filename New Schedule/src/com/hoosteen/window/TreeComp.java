@@ -66,8 +66,8 @@ public class TreeComp extends JPanel {
 	
 	/**
 	 * Main and only constructor. Takes 2 parameters
-	 * @param ParentFrame
-	 * @param Tree to draw
+	 * @param parentFrame - Parent MainFrame
+	 * @param tree - Tree to draw
 	 */
 	public TreeComp(MainFrame parentFrame, Node tree){		
 		
@@ -137,9 +137,7 @@ public class TreeComp extends JPanel {
 				setColor(nodeBgColor);
 			}
 			fillRect(nodeRect);
-			
-
-			
+		
 			//Highlight selected node
 			if(node.equals(selectedNode)){
 				setColor(selectedNodeColor);
@@ -210,13 +208,9 @@ public class TreeComp extends JPanel {
 				drawLine(r.getX() + r.getWidth()/2, r.getY() + 1, r.getX() + r.getWidth()/2, r.getY() + r.getHeight() - 2);
 			}
 		}
-	}	
+	}
 	
-
-	
-	//Start Rect/Circle stuff
-
-	
+	//Start Rect/Circle stuff	
 	private Circle getRemoveCircle(Node n){
 		int x =  getWidth() - 5 - Settings.circleRadius;
 		int y = (n.getNodeNumber()+1)*nodeHeight - nodeHeight/2;

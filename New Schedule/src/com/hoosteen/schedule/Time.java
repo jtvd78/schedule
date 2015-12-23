@@ -25,9 +25,9 @@ public class Time implements Serializable{
 	
 	/**
 	 * Initializes a time with:
-	 * @param Hour
-	 * @param Minue
-	 * @param Boolean PM (false for AM)
+	 * @param hour - (0 - 23)
+	 * @param min - Minutes (0 - 59)
+	 * @param PM - Boolean, (false for AM)
 	 */
 	public Time(int hour, int min, boolean PM){
 		this.hour = hour;
@@ -37,7 +37,7 @@ public class Time implements Serializable{
 	
 	/**
 	 * Creates a time with an integer: W
-	 * @param Minutes - The time from the beginning of the day
+	 * @param minutes - The time from the beginning of the day
 	 */
 	public Time(int minutes){
 		min = minutes % 60;
@@ -50,7 +50,7 @@ public class Time implements Serializable{
 
 	/**
 	 * Creates a time from a string. The string must be in the specific format from the UMD Soc Website, or this will not work
-	 * @param String to parse
+	 * @param timeString - String to parse
 	 */
 	public Time(String timeString){	
 		int colanPos = timeString.indexOf(':');
@@ -92,6 +92,7 @@ public class Time implements Serializable{
 	
 	/**
 	 * Returns this time to: Minutes since 12:00 AM
+	 * @return Integer representation of this Time
 	 */
 	public int toMinutes(){
 		int result = 0;
