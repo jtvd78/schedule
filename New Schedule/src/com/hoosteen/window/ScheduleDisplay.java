@@ -141,13 +141,21 @@ public class ScheduleDisplay extends JComponent{
 		 * Draws the current time, along with a corresponding horizontal line, at the mouse's Y coordinate.
 		 */
 		void drawCurrentTime(){
+			
 			int mouseY = (int) mouse.getY();
 			
-			g.setColor(Color.red);
-			g.drawLine(0, mouseY, width, mouseY);		
-			Time time = new Time((int)(mouseY*minPerPixelY + startTime * 60.0));
 			
-			drawString(time.toString(), new Rect((int)mouse.getX() + 10, (int)( mouse.getY()), 10, 20));	
+			String timeString = new Time((int)(mouseY*minPerPixelY + startTime * 60.0)).toString();
+			int stringWidth = (int) g.getFontMetrics().getStringBounds(timeString, g).getWidth();
+			Rect r = new Rect((int)mouse.getX() + 10, (int)( mouse.getY()), stringWidth + 10, 20);
+
+			g.setColor(new Color(0,0,0,128));
+			fillRect(r);
+			
+			g.setColor(Color.red);
+			g.drawLine(0, mouseY, width, mouseY);	
+			drawString(timeString, r);	
+			
 		}
 		
 		/**

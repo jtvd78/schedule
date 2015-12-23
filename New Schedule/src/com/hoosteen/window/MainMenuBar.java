@@ -83,7 +83,7 @@ public class MainMenuBar extends JMenuBar{
 			
 			s.removeCoursesWithLowerGenEdSubcats(2);
 			s.sortAlphabetical();
-			s.removeEmptySections();
+		//	s.removeEmptySections();
 			
 			mainFrame.getSchedule().merge(s);
 		}

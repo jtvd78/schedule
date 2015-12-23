@@ -281,10 +281,10 @@ public class TreeComp extends JPanel {
 	 * @param X coordinate of click
 	 * @param Y coordinate of click
 	 */
-	private void nodeRightClicked(Node n, int x, int y){	
+	private void nodeRightClicked(final Node n, int x, int y){	
 		popupMenu.removeAll();
 		
-		if(n instanceof ClassTime){
+		if(n.getClass() == ClassTime.class){
 			//Action which will remove any nodes in the current tree that conflicts with the classtime. 
 			popupMenu.add(new AbstractAction("Remove Conflicting Classtimes"){
 				public void actionPerformed(ActionEvent e) {

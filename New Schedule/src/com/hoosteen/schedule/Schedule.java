@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import javax.swing.JOptionPane;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -75,6 +77,8 @@ public class Schedule extends Node{
 	
 	public void removeEmptySections(){
 		ArrayList<Node> removeList = new ArrayList<Node>();
+		
+		String out = JOptionPane.showInputDialog("hi");
 		
 		for(Node course : this){
 			for(Node sec : course){

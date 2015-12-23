@@ -17,8 +17,7 @@ import com.hoosteen.helper.GenEdSubcat;
  *
  */
 public class ScheduleLoader {
-	
-	static String defaultSchedule = "C:\\Users\\justi\\.UMDSoCData\\schedule.sch";
+
 	
 	/**
 	 * Loads a default schedule. Will always return a valid schedule
