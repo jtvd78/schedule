@@ -3,9 +3,6 @@ package com.hoosteen.schedule;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-
-import javax.swing.JOptionPane;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
