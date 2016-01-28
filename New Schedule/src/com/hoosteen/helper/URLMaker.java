@@ -3,7 +3,7 @@ package com.hoosteen.helper;
 
 /**
  * Makes URL Strings for purposes of connecting to UMD Schedule of Classes. 
- * @author Justin
+ * @author justin
  *
  */
 public class URLMaker {

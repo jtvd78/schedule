@@ -4,7 +4,7 @@ import java.awt.Graphics;
 
 /**
  * Its a circle. It has an (X,Y) coordinate, and a radius. 
- * @author Justin
+ * @author justin
  *
  */
 public class Circle {

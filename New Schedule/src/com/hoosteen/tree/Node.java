@@ -25,7 +25,7 @@ import com.hoosteen.helper.Tools;
  * Nodes can contain any number of other nodes
  * Nodes are Iterable, Serializable, and Comparable
  *  
- * @author Justin
+ * @author justin
  *
  */
 public abstract class Node implements Serializable, Iterable<Node>, Comparable<Node>{

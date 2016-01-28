@@ -313,7 +313,7 @@ public class TreeComp extends JPanel {
 	
 	/**
 	 * Handles all user input within this component
-	 * @author Justin
+	 * @author justin
 	 */
 	private class Listener implements MouseListener, MouseMotionListener, KeyListener{
 		

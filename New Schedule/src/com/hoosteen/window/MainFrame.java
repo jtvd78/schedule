@@ -29,7 +29,7 @@ import com.hoosteen.schedule.Time;
 
 /**
  * This is the main window of the program. The main method is here. 
- * @author Justin
+ * @author justin
  *
  */
 public class MainFrame extends JFrame{

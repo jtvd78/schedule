@@ -4,7 +4,7 @@ import java.awt.Graphics;
 
 /**
  * Rectangle. Has an (x, y) coordinate in the top left, with a width and and height. 
- * @author Justin
+ * @author justin
  *
  */
 public class Rect{

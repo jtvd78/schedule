@@ -19,7 +19,7 @@ import com.hoosteen.tree.Node;
 
 /**
  * Displays a Schedule
- * @author Justin
+ * @author justin
  *
  */
 public class ScheduleDisplay extends JComponent{
@@ -102,7 +102,7 @@ public class ScheduleDisplay extends JComponent{
 	/**
 	 * Extension of my graphics wrapper. 
 	 * Adds methods for performing ScheduleDisplay options. 
-	 * @author justi
+	 * @author Justin
 	 *
 	 */
 	class ScheduleGraphics extends GraphicsWrapper{
@@ -227,7 +227,7 @@ public class ScheduleDisplay extends JComponent{
 	/**
 	 * Updates x and y mouse positions for use when drawing the component. 
 	 * Also repaints component whenever mouse motion is detected. 
-	 * @author Justin
+	 * @author justin
 	 *
 	 */
 	private class Listener implements MouseMotionListener, MouseListener{

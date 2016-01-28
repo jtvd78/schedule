@@ -8,7 +8,7 @@ import com.hoosteen.helper.Tools;
 import com.hoosteen.tree.Node;
 /**
  * ClassTime. Can be a lecture or not, but has a start time, end time, and a set of days on which it occurs on. 
- * @author justi
+ * @author Justin
  *
  */
 public class ClassTime extends Node{

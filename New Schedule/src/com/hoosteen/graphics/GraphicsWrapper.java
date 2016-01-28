@@ -8,7 +8,7 @@ import java.awt.geom.Rectangle2D;
 
 /**
  * Makes it easy to perform special operations with a Graphics object. Including drawing rectangles, cirles, and strings
- * @author justi
+ * @author Justin
  *
  */
 public class GraphicsWrapper {

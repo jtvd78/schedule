@@ -5,14 +5,14 @@ import java.util.ArrayList;
 
 /**
  * Keeps track of time. Has Day, Hour, Minute, and AM/PM
- * @author Justin
+ * @author justin
  *
  */
 public class Time implements Serializable{
 
 	/**
 	 * A set of days. Su, M, Tu, W, Th, F, Sa
-	 * @author Justin
+	 * @author justin
 	 *
 	 */
 	public enum Day{

@@ -10,7 +10,7 @@ import javax.swing.JTextArea;
 
 /**
  * Some random stuff that I use. 
- * @author Justin
+ * @author justin
  *
  */
 public class Tools {
