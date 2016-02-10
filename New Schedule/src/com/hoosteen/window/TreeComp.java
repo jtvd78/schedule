@@ -87,7 +87,7 @@ public class TreeComp extends JPanel {
 	/**
 	 *Draws the tree to the Graphics object g
 	 */
-	public void paintComponent(Graphics gOld){		
+	public void paintComponent(Graphics gOld){
 		TreeGraphics g = new TreeGraphics(gOld);
 		
 		//Draw Background
