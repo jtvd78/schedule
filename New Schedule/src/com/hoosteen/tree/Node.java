@@ -25,7 +25,7 @@ import com.hoosteen.helper.Tools;
  * Nodes can contain any number of other nodes
  * Nodes are Iterable, Serializable, and Comparable
  *  
- * @author Justin
+ * @author justin
  *
  */
 public abstract class Node implements Serializable, Iterable<Node>, Comparable<Node>{
@@ -53,7 +53,7 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable<N
 	
 	/**
 	 * Moves this node's index in its parent by the parameter
-	 * @param Number of indexes to move
+	 * @param adj - Number of indexes to move
 	 */
 	public void move(int adj){
 		parent.moveChildNode(this, adj);
@@ -117,7 +117,7 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable<N
 	/**
 	 * Sets the value of selected to the parameter
 	 * Also sets the child nodes to the same value
-	 * @param True or false
+	 * @param selected - True or false
 	 */
 	public void setSelected(boolean selected){
 		this.selected = selected;
@@ -161,7 +161,7 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable<N
 	
 	/** 
 	 * Sets this node and all sub-nodes as the parameter
-	 * @param hidden
+	 * @param hidden - Value to set hidden of node to 
 	 */
 	public void setHidden(boolean hidden){
 		this.hidden = hidden;
@@ -182,10 +182,10 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable<N
 	}	
 	
 	/**
-	 * @param Sets expanded to input boolean
+	 * @param expanded - Sets expanded to input boolean
 	 */
-	public void setExpanded(boolean e){
-		expanded = e;
+	public void setExpanded(boolean expanded){
+		expanded = expanded;
 	}	
 	
 	/**
@@ -203,18 +203,16 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable<N
 	}
 	
 	/**
-	 * @param Index to retrieve
+	 * @param index - Index to retrieve
 	 * @return Returns node at a specific index
-	 * @throws NodeNotFoundException 
 	 */
 	public Node getNode(int index){
 		return nodeList.get(index);
 	}	
 	
 	/**
-	 * @param Node to get the index of
+	 * @param n - Node to get the index of
 	 * @return The index of n, within the current node. Returns -1 if this node does not contain n.
-	 * @throws NodeNotFoundException 
 	 */
 	public int getIndex(Node n){
 		int ctr = 0;
@@ -228,10 +226,10 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable<N
 	}
 	
 	/**
-	 * @return Returns color of Node. Defaults to GREEN. 
+	 * @return Returns color of Node. Defaults to WHITE. 
 	 */
 	public Color getColor(){
-		return Color.GREEN;
+		return Color.WHITE;
 	}
 	
 	/**
@@ -293,7 +291,7 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable<N
 	/**
 	 * Returns the visible node under this node, which corresponds to the argument nodeIndex. 
 	 * Starts with 0
-	 * @param Node number to get
+	 * @param nodeIndex - Node number to get
 	 * @return The desired node
 	 */
 	public Node getVisibleNode(int nodeIndex){		
@@ -324,8 +322,7 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable<N
 	}	
 	
 	/**
-	 * Get number of nodes visible which are contained within this node.
-	 * @return
+	 * @return number of nodes visible which are contained within this node.
 	 */
 	public int getExpandedNodeCount(){
 		int ctr = 0;

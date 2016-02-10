@@ -8,32 +8,33 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
-import com.hoosteen.helper.GenEdSubcat;
-
-/**
- * Creates 
- * @author justi
- *
- */
-public class ScheduleLoader {
+public class Project implements Serializable{
 	
-	static String defaultSchedule = "C:\\Users\\justi\\.UMDSoCData\\schedule.sch";
+	private String location;
+	private Schedule schedule;
 	
-	/**
-	 * Loads a default schedule. Will always return a valid schedule
-	 * @return
-	 */
-	public static Schedule getDefaultSchedule(){
-		return makeSchedule();
+	public Project(Schedule schedule, String location){
+		this.schedule = schedule;
+		this.location = location;
+	}	
+	
+	public Schedule getSchedule(){
+		return schedule;
 	}
 	
-	/**
-	 * Saves a given schedule to a give file
-	 * @param schedule
-	 * @param f
-	 */
-	public static void saveSchedule(Schedule schedule, File f){
+	public String getLocation(){
+		return location;
+	}
+	
+	public void save(){
+		saveAs(new File(location));
+	}
+	
+	public void saveAs(File f){
+		
+		location = f.getPath();
 		
 		if(!f.exists()){
 			f.getParentFile().mkdirs();
@@ -44,7 +45,7 @@ public class ScheduleLoader {
 		try {
 			FileOutputStream fos = new FileOutputStream(f);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			oos.writeObject(schedule);
+			oos.writeObject(this);
 			oos.close();
 			fos.close();
 		} catch (FileNotFoundException e) {
@@ -57,32 +58,33 @@ public class ScheduleLoader {
 	}
 	
 	/**
-	 * Makes and returns a new default schedule
-	 * @return
+	 * Makes and returns a default project
+	 * @return the new Project
 	 */
-	public static Schedule makeSchedule(){
+	public static Project makeDefaultProject(){
 		Schedule schedule = new Schedule();
 		
 		schedule.addCourseById("ENEE101", Color.BLUE);
 		schedule.addCourseById("PHYS161", Color.MAGENTA);
 		schedule.addCourseById("MATH141", Color.RED);
 		schedule.addCourseById("CMSC132", Color.ORANGE);
+		schedule.addCourseById("HIST289V", Color.GREEN);
 		
-		return schedule;
+		return new Project(schedule, null);
 	}
-
+	
 	/**
-	 * Loads and returns a schedule from a give file
-	 * @param file
-	 * @return
+	 * Loads a project
+	 * @param file - File to load project from
+	 * @return Project stored in the file
 	 */
-	public static Schedule loadSchedule(File file) {
-		Schedule out = null;
+	public static Project loadProject(File file){
+		Project out = null;
 		if(file.exists()){
 			try {
 				FileInputStream fis = new FileInputStream(file);
 				ObjectInputStream ois = new ObjectInputStream(fis);
-				out = (Schedule) ois.readObject();
+				out = (Project) ois.readObject();
 				ois.close();
 				fis.close();
 			} catch (FileNotFoundException e) {
@@ -96,6 +98,7 @@ public class ScheduleLoader {
 				e.printStackTrace();
 			}
 		}
+		out.location = file.getPath();
 		return out;
 	}
 }

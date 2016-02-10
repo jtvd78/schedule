@@ -33,8 +33,6 @@ public class Section extends Node{
 		sectionID = e.select(".section-id-container").text();
 		professor = e.select(".section-instructor").text();
 		
-		System.out.println(course + " : " + sectionID + " : " + professor);
-		
 		openSeats = Integer.parseInt(e.select(".open-seats-count").text());
 		totalSeats = Integer.parseInt(e.select(".total-seats-count").text());
 		waitlistSize = Integer.parseInt(e.select(".waitlist-count").get(0).text());

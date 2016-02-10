@@ -2,7 +2,7 @@ package com.hoosteen.helper;
 
 /**
  * Enum representing the possible subcategories in which a gen-ed can reside
- * @author justi
+ * @author Justin
  *
  */
 public enum GenEdSubcat {

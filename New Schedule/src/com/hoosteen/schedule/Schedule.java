@@ -3,7 +3,6 @@ package com.hoosteen.schedule;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -23,7 +22,7 @@ public class Schedule extends Node{
 	/**
 	 * Merges this schedule with a given schedule
 	 * Essentially appends the content of the given schedule to the current one. 
-	 * @param s
+	 * @param s - Schedule to merge with
 	 */
 	public void merge(Schedule s){
 		for(Node n : s){
@@ -59,8 +58,8 @@ public class Schedule extends Node{
 	}
 	
 	/**
-	 * Adds a given gen ed subcat to the schedul
-	 * @param ges
+	 * Adds a given gen ed subcat to the schedule
+	 * @param ges - GenEdSubcat to add to Schedule
 	 */
 	public void addGenEdSubcat(GenEdSubcat ges){
 		String url = URLMaker.getGenEdURL(ges);
@@ -120,7 +119,7 @@ public class Schedule extends Node{
 	
 	/**
 	 * Removes all courses within the schedule which have a gen-ed number of less than the input parameter
-	 * @param lowerThan
+	 * @param lowerThan - Courses with a gen ed count lower than this will get removed
 	 */
 	public void removeCoursesWithLowerGenEdSubcats(int lowerThan){
 		
@@ -140,8 +139,8 @@ public class Schedule extends Node{
 	
 	/**
 	 * Adds a course, with a given ID, to the schedule, with the give color 
-	 * @param course
-	 * @param color
+	 * @param course - Course ID String to add
+	 * @param color - Color to add the course as
 	 */
 	public void addCourseById(String course, Color color){
 		String url = URLMaker.getCourseURL(course);
@@ -156,12 +155,12 @@ public class Schedule extends Node{
 	
 	/**
 	 * Removes sections (on any day) that fall between the two given times
-	 * @param t1
-	 * @param t2
+	 * @param start - Beginning Time
+	 * @param end - Ending Time
 	 */
-	public void removeSectionsBetween(Time t1, Time t2){
+	public void removeSectionsBetween(Time start, Time end){
 		
-		ClassTime classTime = new ClassTime(t1, t2);
+		ClassTime classTime = new ClassTime(start, end);
 		
 		ArrayList<Section> removeList = new ArrayList<Section>();
 		
@@ -191,7 +190,7 @@ public class Schedule extends Node{
 	
 	/**
 	 * Removes any classTimes in this schedule which conflict with the given classTime
-	 * @param classTime
+	 * @param classTime - Class time to check conflicting against
 	 */
 	public void removeConflictingClasstimes(ClassTime classTime) {
 		

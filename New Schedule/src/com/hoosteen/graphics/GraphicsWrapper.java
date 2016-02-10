@@ -8,7 +8,7 @@ import java.awt.geom.Rectangle2D;
 
 /**
  * Makes it easy to perform special operations with a Graphics object. Including drawing rectangles, cirles, and strings
- * @author justi
+ * @author Justin
  *
  */
 public class GraphicsWrapper {
@@ -22,6 +22,7 @@ public class GraphicsWrapper {
 	
 	/**
 	 * Creates a new Graphics Wrapper, with a graphics object g
+	 * @param g - Graphics object to wrap around
 	 */
 	public GraphicsWrapper(Graphics g){
 		this.g = g;
@@ -30,9 +31,8 @@ public class GraphicsWrapper {
 	
 	/**
 	 * Draws a string on the graphics object, centered vertically within the rectangle. 
-	 * @param String
-	 * @param Rectangle
-	 * @param Graphcis object
+	 * @param s - String to draw
+	 * @param r - Rectangle to draw within
 	 */
 	public void drawString(String s, Rect r){
 		
@@ -42,8 +42,8 @@ public class GraphicsWrapper {
 	
 	/**
 	 * Draws a string, centered within:
-	 * @param string to draw
-	 * @param rect to center within
+	 * @param s - string to draw
+	 * @param r - rect to center within
 	 */
 	public void drawCenteredString(String s, Rect r){		
 		drawCenteredString(s, r.getX() + r.getWidth() / 2, r.getY() + r.getHeight()/2);
@@ -75,8 +75,8 @@ public class GraphicsWrapper {
 	/**
 	 * Draws a string centered on the point (centerX, centerY)
 	 * @param s	String to draw
-	 * @param centerX
-	 * @param centerY
+	 * @param centerX - X Coordinate to center string on 
+	 * @param centerY - Y Coordinate to center string on 
 	 */
 	public void drawCenteredString(String s, int centerX, int centerY){		
 		Rectangle2D bounds = fm.getStringBounds(s, g);
@@ -89,37 +89,55 @@ public class GraphicsWrapper {
 	
 	/**
 	 * Sets the color to draw
-	 * @param c Color
+	 * @param c - Color to draw
 	 */
 	public void setColor(Color c){
 		g.setColor(c);
 	}
 	
+	
+	/**
+	 * Draws a line between the input points
+	 * Wrapper for drawLine method in graphics
+	 * @param x1 - X Coordinate of first point
+	 * @param y1 - Y Coordinate of first point
+	 * @param x2 - X Coordinate of second point
+	 * @param y2 - Y Coordinate of second point
+	 */
 	public void drawLine(int x1, int y1, int x2, int y2){
 		g.drawLine(x1, y1, x2, y2);
 	}
 	
-	public void fillRect(int x, int y, int width, int height){
-		g.fillRect(x, y, width, height);
-	}
-	
+	/**
+	 * Fills a rectangle
+	 * @param r - Rect to fill
+	 */
 	public void fillRect(Rect r){
 		r.fill(g);
 	}
 	
+	/**
+	 * Draws a rectangle
+	 * @param r - Rect to draw
+	 */
 	public void drawRect(Rect r){
 		r.draw(g);
 	}
 	
+	/**
+	 * Draws a circle
+	 * @param c - Circle to draw
+	 */
 	public void drawCircle(Circle c){
 		c.draw(g);		
 	}
 	
+	/**
+	 * Draws a rectangle with a given outline width
+	 * @param r - Rectangle to draw
+	 * @param weight - Width of outline
+	 */
 	public void drawRect(Rect r, int weight){
 		r.draw(g, weight);
-	}
-	
-	public void drawRect(int x, int y, int width, int height, int weight){
-		new Rect(x,y,width,height).draw(g,weight);
 	}
 }

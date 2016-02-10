@@ -10,14 +10,14 @@ import javax.swing.JTextArea;
 
 /**
  * Some random stuff that I use. 
- * @author Justin
+ * @author justin
  *
  */
 public class Tools {
 	
 	/**
-	 * @param Array to print
-	 * @param Spacer String
+	 * @param arr - Array to print
+	 * @param spacer - Spacer String to append between the array values
 	 * @return Returns each element in the array, separated by a spacer. 
 	 */
 	public static String arrToString(Object[] arr, String spacer){
@@ -44,6 +44,11 @@ public class Tools {
 		return new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
 	}
 
+	/**
+	 * Displays a string of text within a text box
+	 * @param description - Text to display
+	 * @param title - Title of window
+	 */
 	public static void displayText(String description, String title) {
 		JTextArea jta = new JTextArea(description);
 		jta.setLineWrap(true);

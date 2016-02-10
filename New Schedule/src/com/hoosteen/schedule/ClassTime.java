@@ -8,7 +8,7 @@ import com.hoosteen.helper.Tools;
 import com.hoosteen.tree.Node;
 /**
  * ClassTime. Can be a lecture or not, but has a start time, end time, and a set of days on which it occurs on. 
- * @author justi
+ * @author Justin
  *
  */
 public class ClassTime extends Node{
@@ -37,8 +37,8 @@ public class ClassTime extends Node{
 	 * Creates a ClassTime starting and ending at the given times. 
 	 * The classtime is not a lecture,
 	 * and takes place on M, Tu, W, Th, and F
-	 * @param startTime
-	 * @param endTime
+	 * @param startTime - Time that the ClassTime starts at
+	 * @param endTime - Time that the ClassTime ends at
 	 */
 	public ClassTime(Time startTime, Time endTime){
 		this.startTime = startTime;
