@@ -8,10 +8,11 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import com.hoosteen.tree.Node;
+
 import com.hoosteen.helper.GenEdSubcat;
 import com.hoosteen.helper.Tools;
 import com.hoosteen.helper.URLMaker;
-import com.hoosteen.tree.Node;
 
 public class Schedule extends Node{
 	
@@ -127,7 +128,7 @@ public class Schedule extends Node{
 		
 		for(Node cour : this){
 			Course course = (Course) cour;
-			if(course.getSubCats().length < lowerThan){
+			if(course.getNumOfSubCats() < lowerThan){
 				removeList.add(course);
 			}
 		}

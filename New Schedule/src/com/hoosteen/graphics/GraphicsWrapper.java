@@ -87,6 +87,12 @@ public class GraphicsWrapper {
 		g.drawString(s, x, y);
 	}
 	
+	public Rect getStringRect(String s){
+		Rectangle2D bounds = fm.getStringBounds(s, g);
+		
+		return new Rect(0,0,(int)bounds.getWidth(), fm.getAscent() + fm.getDescent());
+	}
+	
 	/**
 	 * Sets the color to draw
 	 * @param c - Color to draw

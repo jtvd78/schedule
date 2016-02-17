@@ -5,8 +5,9 @@ import java.awt.Color;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.hoosteen.helper.Tools;
 import com.hoosteen.tree.Node;
+
+import com.hoosteen.helper.Tools;
 
 
 public class Section extends Node{
@@ -36,7 +37,6 @@ public class Section extends Node{
 		openSeats = Integer.parseInt(e.select(".open-seats-count").text());
 		totalSeats = Integer.parseInt(e.select(".total-seats-count").text());
 		waitlistSize = Integer.parseInt(e.select(".waitlist-count").get(0).text());
-		
 		
 		//times
 		Elements times = e.select(".class-days-container").select(".row");

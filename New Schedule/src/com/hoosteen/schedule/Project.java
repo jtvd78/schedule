@@ -28,10 +28,17 @@ public class Project implements Serializable{
 		return location;
 	}
 	
+	/**
+	 * Saves the file in its last saved location
+	 */
 	public void save(){
 		saveAs(new File(location));
 	}
 	
+	/**
+	 * Saves a project in a specified file
+	 * @param f - The file to save to. 
+	 */
 	public void saveAs(File f){
 		
 		location = f.getPath();

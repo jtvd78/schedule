@@ -9,14 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
-import javax.swing.AbstractAction;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-
-import com.hoosteen.helper.Tools;
 
 /**
  * Abstract class. A Node is a member of a figurative tree. There is
@@ -270,7 +263,7 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable<N
 	 * @return Returns the index of the node, relative to the first node.
 	 *  Essentially, it is the number of nodes from the top that this node is
 	 */
-	public int getNodeNumber(){
+	public int getNodeNumber(){ 
 		
 		//This just means that the top node (which should not be visible),
 		//has a visible node number of -1

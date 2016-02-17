@@ -4,8 +4,9 @@ import java.awt.Color;
 
 import org.jsoup.nodes.Element;
 
-import com.hoosteen.helper.Tools;
 import com.hoosteen.tree.Node;
+
+import com.hoosteen.helper.Tools;
 /**
  * ClassTime. Can be a lecture or not, but has a start time, end time, and a set of days on which it occurs on. 
  * @author Justin
@@ -58,22 +59,42 @@ public class ClassTime extends Node{
 				
 	}
 	
+	/**
+	 * Returns the parent Section
+	 * @return A "owning" section
+	 */
 	public Section getSection(){
 		return section;
 	}
 	
+	/**
+	 * Whether or not this ClassTime is a lecture
+	 * @return If the ClassTime is a lecture
+	 */
 	public boolean isLecture(){
 		return lecture;
 	}
 	
+	/**
+	 * Lists the days of the week that this ClassTime happens
+	 * @return An array of the days this ClassTime occurs on
+	 */
 	public Time.Day[] getDayList(){
 		return (Time.Day[])days.clone();
 	}
 	
+	/**
+	 * When the ClassTime starts
+	 * @return The starting time
+	 */
 	public Time getStartTime(){
 		return startTime;
 	}
 	
+	/**
+	 * When the ClassTime ends
+	 * @return The ending time
+	 */
 	public Time getEndTime(){
 		return endTime;
 	}
@@ -82,6 +103,11 @@ public class ClassTime extends Node{
 		return parent.getColor();
 	}
 	 
+	/**
+	 * Determines whether a specified ClassTime conflicts with this ClassTime
+	 * @param test - The ClassTime to test against
+	 * @return The result
+	 */
 	public boolean conflicts(ClassTime test){
 		//If two classTimes are the same, then they do no conflict, since they are the same classTime;
 		if(this == test){
@@ -106,7 +132,7 @@ public class ClassTime extends Node{
 		}
 		return false;
 	}
-	
+
 	public String toString(){
 		return (lecture ? "Lecture " : "Discussion ") + "(" + startTime + " - " + endTime + " : " + Tools.arrToString(days,"") + ")";
 	}

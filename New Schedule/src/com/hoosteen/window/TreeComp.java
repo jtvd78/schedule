@@ -35,13 +35,12 @@ import com.hoosteen.tree.Node;
 public class TreeComp extends JPanel {	
 
 	//Start Color Settings
-	
-	private final Color fgColor = Color.WHITE;
-	private final Color bgColor = Color.BLACK;
+	private final Color fgColor = Color.BLACK;
+	private final Color bgColor = Color.WHITE;
 	private final Color textColor = Color.BLACK;
 	
 	private final Color nodeBgColor = Color.WHITE;
-	private final Color nodeOutlineColor = Color.BLACK;
+	private final Color nodeOutlineColor = Color.GRAY;
 	private final Color selectedNodeColor = new Color(200,200,255,150);
 	
 	private final Color removeCircleColor = Color.RED;
@@ -61,8 +60,7 @@ public class TreeComp extends JPanel {
 	
 	//These variables are used whenever a node is being dragged. 
 	int draggingOffsetX = 0;
-	int draggingOffsetY = 0;
-	
+	int draggingOffsetY = 0;	
 	
 	/**
 	 * Main and only constructor. Takes 2 parameters
@@ -90,7 +88,7 @@ public class TreeComp extends JPanel {
 	/**
 	 *Draws the tree to the Graphics object g
 	 */
-	public void paintComponent(Graphics gOld){		
+	public void paintComponent(Graphics gOld){
 		TreeGraphics g = new TreeGraphics(gOld);
 		
 		//Draw Background
@@ -443,8 +441,7 @@ public class TreeComp extends JPanel {
 					selectNode(newNode); 
 				}else{
 					selectNode(tree.getVisibleNode(tree.getExpandedNodeCount()-1));
-				}
-				
+				}			
 				
 				break;
 			case KeyEvent.VK_DOWN: 

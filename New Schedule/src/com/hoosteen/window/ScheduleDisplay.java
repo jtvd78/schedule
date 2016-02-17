@@ -33,7 +33,7 @@ public class ScheduleDisplay extends JComponent{
 	int width;
 	int height;
 	double pixelPerDayY;
-	double minPerPixelX, minPerPixelY;
+	double minPerPixelY;
 	
 	//Settings
 	int hoverTransparency = 50; //Out of 255
@@ -64,7 +64,6 @@ public class ScheduleDisplay extends JComponent{
 		width = getWidth();
 		height = getHeight();
 		
-		minPerPixelX = (endTime - startTime)*60.0/width;
 		minPerPixelY = (endTime - startTime)*60.0/height;
 		pixelPerDayY = ((double)width)/5;	
 	}

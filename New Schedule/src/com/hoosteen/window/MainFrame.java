@@ -115,7 +115,7 @@ public class MainFrame extends JFrame{
 
 	/**
 	 * Creates a new frame with a given project
-	 * @param project - Project to manage
+	 * @param project Project to manage
 	 */
 	public static void newFrame(Project project) {
 		frameList.add(new MainFrame(project));

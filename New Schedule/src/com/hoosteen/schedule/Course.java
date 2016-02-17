@@ -9,10 +9,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.hoosteen.tree.Node;
+
 import com.hoosteen.helper.GenEdSubcat;
 import com.hoosteen.helper.Tools;
 import com.hoosteen.helper.URLMaker;
-import com.hoosteen.tree.Node;
 
 public class Course extends Node {
 	
@@ -22,6 +23,8 @@ public class Course extends Node {
 	String courseName;
 	String description;
 	GenEdSubcat[] subCats;
+	
+	int numOfSubCats;
 	
 	public Course(Element e, Color color){		
 		this.color = color;
@@ -67,11 +70,19 @@ public class Course extends Node {
 			}
 		}
 		
+		String str = e.select(".gen-ed-codes-group").text();
+		numOfSubCats = str.length() - str.replace(",", "").length() + 1;
+				
+		
 		return out;
 	}
 	
 	public String toString(){
 		return courseID + ": " + Tools.arrToString(subCats, ",") + " : " + courseName;
+	}
+	
+	public int getNumOfSubCats(){
+		return numOfSubCats;
 	}
 	
 	public GenEdSubcat[] getSubCats(){
