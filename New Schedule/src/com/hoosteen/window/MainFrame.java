@@ -20,9 +20,9 @@ import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import com.hoosteen.helper.GenEdSubcat;
 import com.hoosteen.helper.Settings;
 import com.hoosteen.helper.Tools;
+import com.hoosteen.helper.GenEdSubcat;
 import com.hoosteen.schedule.Project;
 import com.hoosteen.schedule.Schedule;
 import com.hoosteen.schedule.Time;

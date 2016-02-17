@@ -37,7 +37,6 @@ public class Section extends Node{
 		totalSeats = Integer.parseInt(e.select(".total-seats-count").text());
 		waitlistSize = Integer.parseInt(e.select(".waitlist-count").get(0).text());
 		
-		
 		//times
 		Elements times = e.select(".class-days-container").select(".row");
 		
