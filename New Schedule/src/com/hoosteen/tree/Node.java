@@ -58,7 +58,6 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable<N
 	 * @param adj Number of indexes to move
 	 */
 	private void moveChildNode(Node n, int adj){
-		System.out.println(adj);
 		if(nodeList.contains(n)){
 			int newIndex = nodeList.indexOf(n) + adj;
 			
@@ -71,17 +70,33 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable<N
 	}
 	
 	/**
+	 * Gets the index of this node relative to its parent node.
+	 * @return The index
+	 */
+	public int index(){
+		return parent.getIndex(this);
+	}
+	
+	/**
 	 * @return The node above this one within its parent
 	 */
 	public Node getNodeAbove(){
-		return parent.getNode(parent.getIndex(this)-1);
+		int index = index();
+		if(index == 0){
+			return null;
+		}
+		return parent.getNode(index-1);
 	}
 	
 	/**
 	 * @return The node below this one within its parent
 	 */
 	public Node getNodeBelow(){
-		return parent.getNode(parent.getIndex(this)+1);
+		int index = index();
+		if(index+1 == parent.size()){
+			return null;
+		}
+		return parent.getNode(index+1);
 	}
 	
 	/**
@@ -178,7 +193,7 @@ public abstract class Node implements Serializable, Iterable<Node>, Comparable<N
 	 * @param expanded - Sets expanded to input boolean
 	 */
 	public void setExpanded(boolean expanded){
-		expanded = expanded;
+		this.expanded = expanded;
 	}	
 	
 	/**

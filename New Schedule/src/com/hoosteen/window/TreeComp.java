@@ -173,16 +173,18 @@ public class TreeComp extends JPanel {
 				}
 			}
 			
-			//Draws the remove circle
-			setColor(removeCircleColor);
-			drawCircle(getRemoveCircle(node));
-			
-			//Draws X within remove circle
-			setColor(Color.BLACK);
-			int x = nodeRect.getX() + nodeRect.getWidth();
-			drawLine(x - 3*nodeHeight/4, nodeRect.getY() + nodeHeight /4,x- nodeHeight/4,nodeRect.getY() + 3*nodeHeight/4);
-			drawLine(x - 3*nodeHeight/4, nodeRect.getY() + 3*nodeHeight /4,x - nodeHeight/4,nodeRect.getY() + nodeHeight/4);
-			
+			//Don't draw red X or circle if youre dragging the node
+			if(node != draggingNode){	
+				//Draws the remove circle
+				setColor(removeCircleColor);
+				drawCircle(getRemoveCircle(node));
+				
+				//Draws X within remove circle
+				setColor(Color.BLACK);
+				int x = nodeRect.getX() + nodeRect.getWidth();
+				drawLine(x - 3*nodeHeight/4, nodeRect.getY() + nodeHeight /4,x- nodeHeight/4,nodeRect.getY() + 3*nodeHeight/4);
+				drawLine(x - 3*nodeHeight/4, nodeRect.getY() + 3*nodeHeight /4,x - nodeHeight/4,nodeRect.getY() + nodeHeight/4);
+			}
 		}
 		
 		/**
@@ -351,22 +353,30 @@ public class TreeComp extends JPanel {
 				
 				//Moving Down
 				if(adj > 0){
-					int move = adj - draggingNode.getNodeBelow().getExpandedNodeCount() - draggingNode.getExpandedNodeCount();
 					
-					if( move > 0){						
+					Node nodeBelow = draggingNode.getNodeBelow();
+					int below = (nodeBelow == null) ? 0 : nodeBelow.getExpandedNodeCount();
+
+					int move = adj - below - draggingNode.getExpandedNodeCount();
+					
+					if( move > 0){			
+						draggingOffsetY -= move*nodeHeight + below*nodeHeight ;
 						draggingNode.move(move);
-						draggingOffsetY -= adj*nodeHeight + draggingNode.getExpandedNodeCount()*nodeHeight ;
 						parentFrame.repaint();
 					}
 					
 				//Moving up
 				}else if(adj < 0){
-					int move = adj + draggingNode.getNodeAbove().getExpandedNodeCount();
+					
+					Node nodeAbove = draggingNode.getNodeAbove();
+					int above = (nodeAbove == null) ? 0 : nodeAbove.getExpandedNodeCount();
+					
+					int move = adj + above;
 					
 					//If you are above the next node
-					if( move < 0){						
+					if( move < 0){			
+						draggingOffsetY -= move*nodeHeight - above*nodeHeight;
 						draggingNode.move(move);
-						draggingOffsetY -= adj*nodeHeight;
 						parentFrame.repaint();
 					}
 				}

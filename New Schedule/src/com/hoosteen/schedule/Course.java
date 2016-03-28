@@ -42,6 +42,20 @@ public class Course extends Node {
 				credits + "\nDescription: " + description;
 	}
 	
+	
+	/**
+	 * A course is not hidden when any of its children are not hidden
+	 */
+	@Override
+	public boolean isHidden(){
+		for(Node n : this){
+			if(!n.isHidden()){
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	public String getName(){
 		return courseName;
 	}
