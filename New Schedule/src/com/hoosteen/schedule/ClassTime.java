@@ -27,6 +27,7 @@ public class ClassTime extends Node{
 	 * @param lecture boolean if lecture or not
 	 */
 	public ClassTime(Element e, Section section, boolean lecture){
+		
 		days = Time.getDays(e.select(".section-days").text());		
 		startTime = new Time(e.select(".class-start-time").text());
 		endTime = new Time(e.select(".class-end-time").text());

@@ -175,6 +175,9 @@ public class Schedule extends Node{
 				}
 				
 				for(ClassTime dis : section.getDiscussionTimes()){
+					
+					System.out.println(dis  + " : " + classTime + " : " + course);
+					
 					if(dis.conflicts(classTime)){
 						removeList.add(section);
 						break;

@@ -2,6 +2,8 @@ package com.hoosteen.schedule;
 
 import java.awt.Color;
 
+import javax.swing.plaf.synth.SynthSeparatorUI;
+
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
@@ -55,14 +57,24 @@ public class Section extends Node{
 			return;
 		}
 		
+		int skip = 0;
+		while(!times.get(skip).text().contains("-")){
+			skip++;
+		}		
 		
-		lectureTime = new ClassTime(times.get(0),this, true);
-		addNode(lectureTime);
+		lectureTime = new ClassTime(times.get(skip),this, true);
+		addNode(lectureTime);		
 		
 		discussionTimes = new ClassTime[size-1];
 		for(int i = 1; i < size; i++){
+			
+			if(times.get(i).text().contains("Class time/details on ELMS")){
+				skip++;
+				continue;
+			}
+			
 			discussionTimes[i-1] = new ClassTime(times.get(i),this, false);		
-			addNode(discussionTimes[i-1]);
+			addNode(discussionTimes[i-1-skip]);
 		}
 	}
 	

@@ -52,7 +52,8 @@ public class Time implements Serializable{
 	 * Creates a time from a string. The string must be in the specific format from the UMD Soc Website, or this will not work
 	 * @param timeString - String to parse
 	 */
-	public Time(String timeString){	
+	public Time(String timeString){
+		
 		int colanPos = timeString.indexOf(':');
 		String first = timeString.substring(0, colanPos);
 		String second = timeString.substring(colanPos+1, colanPos+1 + 2);
