@@ -150,8 +150,21 @@ public class MainFrame extends JFrame{
 			courses.add(addCourse);
 			courses.add(addGenEds);
 			
+			JMenu help = new JMenu("Help");
+				JMenuItem about = new JMenuItem("About");
+				about.addActionListener(new ActionListener(){
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						JOptionPane.showMessageDialog(MainFrame.this, "Made by Justin Van Dort");
+					}
+					
+				});
+			help.add(about);
+			
 			add(file);
 			add(courses);
+			add(help);
 		}
 		
 		public class AddGenEdsActionListener implements ActionListener {
