@@ -71,16 +71,16 @@ public class Project implements Serializable{
 	public static Project makeDefaultProject(){
 		Schedule schedule = new Schedule();
 		
-	//	schedule.addCourseById("PHYS260", Color.GREEN);
-	//	schedule.addCourseById("PHYS261", Color.CYAN);
-	//	schedule.addCourseById("ENEE244", Color.PINK);
-	//	schedule.addCourseById("CMSC250", Color.MAGENTA);
-		
+		schedule.addCourseById("PHYS260", Color.GREEN);
+		schedule.addCourseById("PHYS261", Color.CYAN);
+		schedule.addCourseById("ENEE244", Color.PINK);
+		schedule.addCourseById("CMSC250", Color.MAGENTA);
+		schedule.addCourseById("MATH246", Color.GRAY);
 		
 	//	schedule.addCourseById("CMSC216", Color.BLUE);
 	//	schedule.addCourseById("ENEE222", Color.RED);
 	//	schedule.addCourseById("ENEE245", Color.YELLOW);
-	//	schedule.addCourseById("MATH246", Color.GRAY);
+	//	
 		
 		return new Project(schedule, null);
 	}

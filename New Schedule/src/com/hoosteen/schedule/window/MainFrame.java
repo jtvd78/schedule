@@ -1,4 +1,4 @@
-package com.hoosteen.window;
+package com.hoosteen.schedule.window;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -7,25 +7,23 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
 
-import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import com.hoosteen.helper.GenEdSubcat;
-import com.hoosteen.helper.Settings;
-import com.hoosteen.helper.Tools;
+import com.hoosteen.Tools;
+import com.hoosteen.schedule.GenEdSubcat;
 import com.hoosteen.schedule.Project;
 import com.hoosteen.schedule.Schedule;
 import com.hoosteen.schedule.Time;
+import com.hoosteen.tree.TreeComp;
 
 /**
  * This is the main window of the program. The main method is here. 
@@ -34,11 +32,20 @@ import com.hoosteen.schedule.Time;
  */
 public class MainFrame extends JFrame{
 	
+	/**
+	 *Default window width
+	 */
+	public static final int defaultWindowWidth = 800;
+	
+	/**
+	 * Default window height
+	 */
+	public static final int defaultWindowHeight = 600;
+	
 	private Project project;
 	
 	private TreeComp treeComp;
 	private JSplitPane splitPane;
-	private JScrollPane scrollPane;
 	
 	private static final ArrayList<MainFrame> frameList = new ArrayList<MainFrame>();
 	
@@ -72,28 +79,14 @@ public class MainFrame extends JFrame{
 		//Tree comp. Right side
 		//Scroll pane holds tree comp
 		treeComp = new TreeComp(this, project.getSchedule());
-		scrollPane = new JScrollPane(treeComp);
-		scrollPane.getVerticalScrollBar().setUnitIncrement(Settings.nodeHeight);
-		disableArrowKeys(scrollPane);
 		
 		//Split pane separates the two
-		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,scheduleDisplay,scrollPane);
-		splitPane.setDividerLocation(Settings.defaultWindowWidth*3/4);			
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,scheduleDisplay,treeComp);
+		splitPane.setDividerLocation(defaultWindowWidth*3/4);			
 		add(splitPane, BorderLayout.CENTER);
 		
-		setSize(Settings.defaultWindowWidth, Settings.defaultWindowHeight);
+		setSize(defaultWindowWidth, defaultWindowHeight);
 		setVisible(true);
-	}	
-	
-	/**
-	 * Disables the arrow keys for MainFrame's treeComp. Allows the scrollPane not to move up and down when arrow keys are pressed,
-	 * but the selection will still go up and down
-	 */
-	private static void disableArrowKeys(JScrollPane scrollPane) {
-		String[] keystrokeNames = {"UP","DOWN","LEFT","RIGHT"};
-		for(int i=0; i<keystrokeNames.length; ++i){
-			scrollPane.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(keystrokeNames[i]), "none");
-		}
 	}
 	
 	/**

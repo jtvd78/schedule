@@ -7,9 +7,8 @@ import javax.swing.plaf.synth.SynthSeparatorUI;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.hoosteen.Tools;
 import com.hoosteen.tree.Node;
-
-import com.hoosteen.helper.Tools;
 
 
 public class Section extends Node{

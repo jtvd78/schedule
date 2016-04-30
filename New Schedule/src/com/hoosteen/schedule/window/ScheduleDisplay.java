@@ -1,4 +1,4 @@
-package com.hoosteen.window;
+package com.hoosteen.schedule.window;
 
 import java.awt.Color;
 import java.awt.FontMetrics;

@@ -10,10 +10,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.hoosteen.tree.Node;
-
-import com.hoosteen.helper.GenEdSubcat;
-import com.hoosteen.helper.Tools;
-import com.hoosteen.helper.URLMaker;
+import com.hoosteen.Tools;
 
 public class Course extends Node {
 	

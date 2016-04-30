@@ -1,12 +1,15 @@
 package com.hoosteen.schedule;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.JPopupMenu;
 
 import org.jsoup.nodes.Element;
 
+import com.hoosteen.Tools;
 import com.hoosteen.tree.Node;
-
-import com.hoosteen.helper.Tools;
 /**
  * ClassTime. Can be a lecture or not, but has a start time, end time, and a set of days on which it occurs on. 
  * @author Justin
@@ -136,5 +139,19 @@ public class ClassTime extends Node{
 
 	public String toString(){
 		return (lecture ? "Lecture " : "Discussion ") + "(" + startTime + " - " + endTime + " : " + Tools.arrToString(days,"") + ")";
+	}
+	
+	@Override
+	public void addPopupMenuOptions(JPopupMenu popupMenu){
+		
+		super.addPopupMenuOptions(popupMenu);
+		
+		//Action which will remove any nodes in the current tree that conflicts with the classtime. 
+		popupMenu.add(new AbstractAction("Remove Conflicting Classtimes"){
+			public void actionPerformed(ActionEvent e) {
+				((Schedule)(getTopNode())).removeConflictingClasstimes((ClassTime)ClassTime.this);
+				//No repaint here. Need to add it somehow
+			}
+		});
 	}
 }

@@ -1,4 +1,4 @@
-package com.hoosteen.helper;
+package com.hoosteen.schedule;
 
 /**
  * Enum representing the possible subcategories in which a gen-ed can reside

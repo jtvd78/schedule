@@ -1,5 +1,4 @@
-package com.hoosteen.helper;
-
+package com.hoosteen.schedule;
 
 /**
  * Makes URL Strings for purposes of connecting to UMD Schedule of Classes. 
