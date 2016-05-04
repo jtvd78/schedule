@@ -16,6 +16,7 @@ import com.hoosteen.schedule.ClassTime;
 import com.hoosteen.schedule.Schedule;
 import com.hoosteen.schedule.Time;
 import com.hoosteen.tree.Node;
+import com.hoosteen.tree.TreeComp;
 
 /**
  * Displays a Schedule
@@ -28,6 +29,8 @@ public class ScheduleDisplay extends JComponent{
 	Point mouse;
 	Schedule schedule;
 	boolean drawCurrentTime = true;
+	
+	TreeComp treeComp;
 	
 	//Helping Variables
 	int width;
@@ -44,8 +47,10 @@ public class ScheduleDisplay extends JComponent{
 	 * Constructor
 	 * @param schedule - Schedule to display
 	 */
-	public ScheduleDisplay(Schedule schedule){
+	public ScheduleDisplay(Schedule schedule, TreeComp tc){
 		this.schedule = schedule;
+		
+		this.treeComp = tc;
 		
 		//Init mouse
 		mouse = new Point(0,0);
@@ -85,17 +90,39 @@ public class ScheduleDisplay extends JComponent{
 		for(Node course : schedule){
 			for(Node section : course){
 				for(Node classTime : section){
-					if(!classTime.isHidden() || classTime.isTransparent()){
+					if(!classTime.isHidden() || isTransparent(classTime)){
 						g.drawClassTime((ClassTime)classTime);
 					}
 				}
 			}
 		}
 		
+		/*
+		if(treeComp.getSelectedNode() != null && treeComp.getSelectedNode().){
+			g.drawClassTime(treeComp.getSelectedNode());
+		}
+		*/
+		
 		//Current Time marker
 		if(drawCurrentTime){
 			g.drawCurrentTime();
 		}
+	}
+	
+	/**
+	 * A node is transparent if its parent is transparent, or if it is currently selected. 
+	 * @return boolean, transparent or not. 
+	 */
+	public boolean isTransparent(Node n){
+		
+		//The top node is never transparent
+		//I wouldn't say never, but for the purposes of this class, it wont
+		//I will come back and change this if I need to. 
+		if(n.getLevel() == 0){
+			return false;
+		}
+		
+		return n.isHidden() && (n == treeComp.getSelectedNode()) || isTransparent(n.getParent());
 	}
 	
 	/**
@@ -167,7 +194,7 @@ public class ScheduleDisplay extends JComponent{
 				
 				//Make classtime transparent
 				Color ogColor = ct.getColor();
-				if(ct.isTransparent() && ct.isHidden()){
+				if(isTransparent(ct)){
 					setColor(new Color(ogColor.getRed(),ogColor.getGreen(), ogColor.getBlue(), hoverTransparency));
 					outline = new Color(outline.getRed(), outline.getGreen(), outline.getBlue(), hoverTransparency);
 				}else{

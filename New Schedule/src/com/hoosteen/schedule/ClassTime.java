@@ -104,7 +104,7 @@ public class ClassTime extends Node{
 	}
 	
 	public Color getColor(){
-		return parent.getColor();
+		return getParent().getColor();
 	}
 	 
 	/**

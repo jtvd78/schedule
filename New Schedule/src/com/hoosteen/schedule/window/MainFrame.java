@@ -73,15 +73,17 @@ public class MainFrame extends JFrame{
 		getContentPane().setLayout(new BorderLayout());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
-		//Schedule display. Left side
-		ScheduleDisplay scheduleDisplay = new ScheduleDisplay(project.getSchedule());
-		
 		//Tree comp. Right side
 		//Scroll pane holds tree comp
 		treeComp = new TreeComp(this, project.getSchedule());
 		
+		//Schedule display. Left side
+		ScheduleDisplay scheduleDisplay = new ScheduleDisplay(project.getSchedule(),treeComp);
+		
+		
+		
 		//Split pane separates the two
-		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,scheduleDisplay,treeComp);
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,true,scheduleDisplay,treeComp);
 		splitPane.setDividerLocation(defaultWindowWidth*3/4);			
 		add(splitPane, BorderLayout.CENTER);
 		

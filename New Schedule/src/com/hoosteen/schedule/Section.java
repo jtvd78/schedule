@@ -102,7 +102,7 @@ public class Section extends Node{
 	}
 	
 	public Color getColor(){
-		return parent.getColor();
+		return getParent().getColor();
 		//return color;
 	}
 }
