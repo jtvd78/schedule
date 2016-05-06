@@ -1,8 +1,12 @@
 package com.hoosteen.schedule;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.swing.AbstractAction;
+import javax.swing.JPopupMenu;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -23,16 +27,26 @@ public class Course extends Node {
 	
 	int numOfSubCats;
 	
-	public Course(Element e, Color color){		
+	public Course(Element e, Color color){	
+		
 		this.color = color;
-		courseID = e.attr("id");
-		subCats = getSubCats(e);
+		updateCourse(e);
 		initSections();
-		courseName = e.select(".course-title").text();
-		description = e.select(".approved-course-text").text();
-		credits = Integer.parseInt(e.select(".course-min-credits").text());		
+		
 	}
 	
+	private void updateCourse(Element e) {
+		courseID = e.attr("id");
+		subCats = getSubCats(e);
+		courseName = e.select(".course-title").text();
+		description = e.select(".approved-course-text").text();
+		credits = Integer.parseInt(e.select(".course-min-credits").text());				
+	}
+	
+
+	/**
+	 * @return Description of the current course.
+	 */
 	public String getDescription(){
 		return courseID + ": " + courseName + "\nGen Ed Subcategories: " +
 				Tools.arrToString(subCats, ",") + "\nCredits: " +
@@ -107,11 +121,59 @@ public class Course extends Node {
 		return courseID;
 	}
 	
-	private void initSections(){		
+
+
+	public void refresh() {
+		try {
+			Document doc = Jsoup.connect(URLMaker.getCourseURL(courseID)).get();
+			Elements courseElements = doc.select(".course");
+			
+			for(int i = 0; i < courseElements.size(); i++){	
+				updateCourse(courseElements.get(i));				
+			}	
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		updateSections();
+	}
+
+	
+	
+	private void updateSections(){
 		try {
 			Document times = Jsoup.connect(URLMaker.getCourseTimeURL(courseID)).get();
 			Elements sectionElements = times.select(".section");
 			
+			for(Node n : this){
+				Section sect = (Section)n;
+				
+				String id = sect.getSectionID();				
+				
+				//Makes sure that a section's times include standard times.
+				for(int i = 0; i < sectionElements.size(); i++){
+					Element sectionElement = sectionElements.get(i);					
+					
+					if(sectionElement.select(".section-day-time-group").text().contains("-")){
+						String elementSectionID = sectionElement.select(".section-id-container").text();
+						if(id.equals(elementSectionID)){
+							sect.refresh(sectionElement);
+						}
+					}
+				}
+			}
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}		
+	}
+	
+	private void initSections(){		
+		try {
+			Document times = Jsoup.connect(URLMaker.getCourseTimeURL(courseID)).get();
+			Elements sectionElements = times.select(".section");			
 			
 			//Makes sure that a section's times include standard times.
 			for(int i = 0; i < sectionElements.size(); i++){
@@ -124,6 +186,15 @@ public class Course extends Node {
 			e1.printStackTrace();
 		}
 	}
-
-
+	
+	public void addPopupMenuOptions(JPopupMenu popupMenu) {	
+		
+		super.addPopupMenuOptions(popupMenu);
+		
+		popupMenu.add(new AbstractAction("Show Description"){
+			public void actionPerformed(ActionEvent e) {
+				Tools.displayText(getDescription(), toString());
+			}	
+		});
+	}
 }

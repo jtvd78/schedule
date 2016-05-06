@@ -23,25 +23,59 @@ public class Section extends Node{
 	private String sectionID;
 	private String professor;
 	
-	Color color;
-	
 	private Course course;
 	
 	public Section(Element e, Course course){
 		this.course = course;
-		
-		color = Tools.getRandomColor();
-		
+		updateSection(e);
+		initClassTimes(e);		
+	}
+	
+	private void updateSection(Element e){
 		sectionID = e.select(".section-id-container").text();
 		professor = e.select(".section-instructor").text();
 		
 		openSeats = Integer.parseInt(e.select(".open-seats-count").text());
 		totalSeats = Integer.parseInt(e.select(".total-seats-count").text());
 		waitlistSize = Integer.parseInt(e.select(".waitlist-count").get(0).text());
-		
+	}
+	
+	public int getOpenSeats(){
+		return openSeats;
+	}
+	
+	public Course getCourse(){
+		return course;
+	}
+	
+	public String toString(){
+		return sectionID + " : " + professor + " : " + lectureTime + " - " + "Total: " + totalSeats + " Open: " + openSeats + " WL: " + waitlistSize;
+	}
+	
+	public ClassTime getLecture(){
+		return lectureTime;
+	}
+	
+	public ClassTime[] getDiscussionTimes(){
+		return (ClassTime[]) discussionTimes.clone();
+	}
+	
+	public String getSectionID(){
+		return sectionID;
+	}
+	
+	public Color getColor(){
+		return getParent().getColor();
+	}
+
+	public void refresh(Element sectionElement) {
+		updateSection(sectionElement);
+		updateClassTimes(sectionElement);
+	}
+	
+	private void initClassTimes(Element sectionElement){
 		//times
-		Elements times = e.select(".class-days-container").select(".row");
-		
+		Elements times = sectionElement.select(".class-days-container").select(".row");		
 		
 		//Make sure classes have a "-" in their times to make sure we can read them
 		int size = 0;
@@ -77,32 +111,19 @@ public class Section extends Node{
 		}
 	}
 	
-	public int getOpenSeats(){
-		return openSeats;
-	}
-	
-	public Course getCourse(){
-		return course;
-	}
-	
-	public String toString(){
-		return sectionID + " : " + professor + " : " + lectureTime + " - " + "Total: " + totalSeats + " Open: " + openSeats + " WL: " + waitlistSize;
-	}
-	
-	public ClassTime getLecture(){
-		return lectureTime;
-	}
-	
-	public ClassTime[] getDiscussionTimes(){
-		return (ClassTime[]) discussionTimes.clone();
-	}
-	
-	public String getSectionID(){
-		return sectionID;
-	}
-	
-	public Color getColor(){
-		return getParent().getColor();
-		//return color;
+	private void updateClassTimes(Element sectionElement){
+		/*
+		//times
+		Elements times = sectionElement.select(".class-days-container").select(".row");		
+				
+		
+		
+		
+		for(Node n : this){
+			ClassTime ct = (ClassTime)n;
+			
+			
+		}
+		*/
 	}
 }

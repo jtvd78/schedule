@@ -75,12 +75,10 @@ public class MainFrame extends JFrame{
 		
 		//Tree comp. Right side
 		//Scroll pane holds tree comp
-		treeComp = new TreeComp(this, project.getSchedule());
+		treeComp = new TreeComp(this, project);
 		
 		//Schedule display. Left side
 		ScheduleDisplay scheduleDisplay = new ScheduleDisplay(project.getSchedule(),treeComp);
-		
-		
 		
 		//Split pane separates the two
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,true,scheduleDisplay,treeComp);
@@ -142,8 +140,11 @@ public class MainFrame extends JFrame{
 				addCourse.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.ALT_MASK));
 				JMenuItem addGenEds = new JMenuItem("Add GenEds");
 				addGenEds.addActionListener(new AddGenEdsActionListener());
+				JMenuItem refreshCourses = new JMenuItem("Refresh Courses");
+				refreshCourses.addActionListener(new RefreshCoursesActionListener());
 			courses.add(addCourse);
 			courses.add(addGenEds);
+			courses.add(refreshCourses);
 			
 			JMenu help = new JMenu("Help");
 				JMenuItem about = new JMenuItem("About");
@@ -193,6 +194,14 @@ public class MainFrame extends JFrame{
 				project.getSchedule().merge(s);
 			}
 
+		}
+		
+		public class RefreshCoursesActionListener implements ActionListener {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				project.refresh();
+			}
 		}
 		
 		public class AddCourseActionListener implements ActionListener {

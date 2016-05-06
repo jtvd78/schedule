@@ -9,6 +9,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import com.hoosteen.tree.Node;
+import com.hoosteen.tree.Tree;
 import com.hoosteen.Tools;
 
 public class Schedule extends Node{
@@ -25,33 +26,6 @@ public class Schedule extends Node{
 	public void merge(Schedule s){
 		for(Node n : s){
 			addNode(n);
-		}
-	}
-	
-	/**
-	 * Reads a document, and scans for each course. 
-	 * Assigns a random color to the new course
-	 * @param doc
-	 */
-	private void readDocument(Document doc){
-		readDocument(doc, null);
-	}
-	
-	/**
-	 * Reads a document, and scans for each course. 
-	 * Assigns the color give, or if color is null, assigns a random color
-	 * @param doc
-	 * @param color
-	 */
-	private void readDocument(Document doc, Color color){		
-		Elements courseElements = doc.select(".course");
-		
-		for(int i = 0; i < courseElements.size(); i++){
-			if(color == null){
-				addNode(new Course(courseElements.get(i), Tools.getRandomColor()));
-			}
-			
-			addNode(new Course(courseElements.get(i), color));
 		}
 	}
 	
@@ -83,7 +57,7 @@ public class Schedule extends Node{
 		}
 		
 		for(Node rem : removeList){
-			rem.remove();
+			Tree.remove(rem);
 		}
 	}
 	
@@ -132,6 +106,40 @@ public class Schedule extends Node{
 		
 		for(Course rem : removeList){
 			removeNode(rem);
+		}
+	}
+	
+	public void refreshCourses(){
+		for(Node children : this){
+			Course course = (Course) children;
+			course.refresh();
+		}
+	}
+	
+	/**
+	 * Reads a document, and scans for each course. 
+	 * Assigns a random color to the new course
+	 * @param doc
+	 */
+	private void readDocument(Document doc){
+		readDocument(doc, null);
+	}
+	
+	/**
+	 * Reads a document, and scans for each course. 
+	 * Assigns the color give, or if color is null, assigns a random color
+	 * @param doc
+	 * @param color
+	 */
+	private void readDocument(Document doc, Color color){		
+		Elements courseElements = doc.select(".course");
+		
+		for(int i = 0; i < courseElements.size(); i++){
+			if(color == null){
+				addNode(new Course(courseElements.get(i), Tools.getRandomColor()));
+			}
+			
+			addNode(new Course(courseElements.get(i), color));
 		}
 	}
 	
@@ -185,7 +193,7 @@ public class Schedule extends Node{
 		
 		
 		for(Section rem : removeList){
-			rem.remove();
+			Tree.remove(rem);
 		}
 	}
 	
@@ -225,7 +233,7 @@ public class Schedule extends Node{
 		
 		//Remove all nodes in remove list
 		for(Node rem : removeList){
-			rem.remove();
+			Tree.remove(rem);
 		}
 	}
 }

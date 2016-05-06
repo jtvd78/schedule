@@ -10,12 +10,15 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-public class Project implements Serializable{
+import com.hoosteen.tree.Tree;
+
+public class Project extends Tree{
 	
 	private String location;
 	private Schedule schedule;
 	
 	public Project(Schedule schedule, String location){
+		super(schedule);
 		this.schedule = schedule;
 		this.location = location;
 	}	
@@ -85,6 +88,10 @@ public class Project implements Serializable{
 		return new Project(schedule, null);
 	}
 	
+	
+	public void refresh(){
+		schedule.refreshCourses();
+	}
 	/**
 	 * Loads a project
 	 * @param file - File to load project from
