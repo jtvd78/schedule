@@ -9,7 +9,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import com.hoosteen.tree.Node;
-import com.hoosteen.tree.Tree;
 import com.hoosteen.Tools;
 
 public class Schedule extends Node{
@@ -57,7 +56,7 @@ public class Schedule extends Node{
 		}
 		
 		for(Node rem : removeList){
-			Tree.remove(rem);
+			rem.remove();
 		}
 	}
 	
@@ -193,7 +192,7 @@ public class Schedule extends Node{
 		
 		
 		for(Section rem : removeList){
-			Tree.remove(rem);
+			rem.remove();
 		}
 	}
 	
@@ -233,7 +232,7 @@ public class Schedule extends Node{
 		
 		//Remove all nodes in remove list
 		for(Node rem : removeList){
-			Tree.remove(rem);
+			rem.remove();
 		}
 	}
 }

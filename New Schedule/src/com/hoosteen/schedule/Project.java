@@ -10,15 +10,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-import com.hoosteen.tree.Tree;
-
-public class Project extends Tree{
+public class Project implements Serializable{
 	
 	private String location;
 	private Schedule schedule;
 	
 	public Project(Schedule schedule, String location){
-		super(schedule);
 		this.schedule = schedule;
 		this.location = location;
 	}	
