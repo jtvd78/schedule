@@ -55,7 +55,7 @@ public class MainFrame extends JFrame{
 	 * @param args - Command line arguments
 	 */
 	public static void main(String[] args){
-		setNativeUI();
+		com.hoosteen.graphics.Tools.setNativeUI();
 		
 		//Load default project, and make frame
 		Project project = Project.makeDefaultProject();
@@ -76,7 +76,7 @@ public class MainFrame extends JFrame{
 		
 		//Tree comp. Right side
 		//Scroll pane holds tree comp
-		treeComp = new TreeComp(this, project);
+		treeComp = new TreeComp(this, project.getSchedule());
 		
 		//Schedule display. Left side
 		ScheduleDisplay scheduleDisplay = new ScheduleDisplay(project.getSchedule(),treeComp);
@@ -88,23 +88,6 @@ public class MainFrame extends JFrame{
 		
 		setSize(defaultWindowWidth, defaultWindowHeight);
 		setVisible(true);
-	}
-	
-	/**
-	 * Makes the window look nice
-	 */
-	public static void setNativeUI(){
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
-		}
 	}
 
 	/**
