@@ -3,14 +3,17 @@ package com.hoosteen.schedule;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.hoosteen.Tools;
 import com.hoosteen.tree.Node;
 import com.hoosteen.tree.Tree;
-import com.hoosteen.Tools;
 
 public class Schedule extends Node{
 	
@@ -76,7 +79,6 @@ public class Schedule extends Node{
 				
 				
 				if(course1 != course2 && course1.equalsCourse(course2)){
-					System.out.println("REMOVE");
 					removeList.add(course2);
 				}
 			}
@@ -134,13 +136,50 @@ public class Schedule extends Node{
 	private void readDocument(Document doc, Color color){		
 		Elements courseElements = doc.select(".course");
 		
-		for(int i = 0; i < courseElements.size(); i++){
-			if(color == null){
-				addNode(new Course(courseElements.get(i), Tools.getRandomColor()));
+		Runnable r = new Runnable(){
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				
 			}
 			
-			addNode(new Course(courseElements.get(i), color));
+		};
+		
+		ExecutorService pool = java.util.concurrent.Executors.newFixedThreadPool(8);
+		
+		for(int i = 0; i < courseElements.size(); i++){
+			if(color == null){
+				color = Tools.getRandomColor();
+			}
+			
+			pool.submit(new NodeWorker(courseElements.get(i), color));		
 		}
+		
+		try {
+			pool.shutdown();
+			pool.awaitTermination(5, TimeUnit.MINUTES);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	class NodeWorker implements Runnable{
+		
+		Element e;
+		Color c;
+		
+		public NodeWorker(Element e, Color c){
+			this.e = e;
+			this.c = c;
+		}
+
+		@Override
+		public void run() {
+			addNode(new Course(e,c));
+		}
+		
 	}
 	
 	/**
@@ -180,9 +219,6 @@ public class Schedule extends Node{
 				}
 				
 				for(ClassTime dis : section.getDiscussionTimes()){
-					
-					System.out.println(dis  + " : " + classTime + " : " + course);
-					
 					if(dis.conflicts(classTime)){
 						removeList.add(section);
 						break;

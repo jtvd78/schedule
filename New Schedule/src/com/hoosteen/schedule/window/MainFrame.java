@@ -19,6 +19,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import com.hoosteen.Tools;
+import com.hoosteen.graphics.TaskWindow;
 import com.hoosteen.schedule.GenEdSubcat;
 import com.hoosteen.schedule.Project;
 import com.hoosteen.schedule.Schedule;
@@ -167,31 +168,57 @@ public class MainFrame extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Schedule s = new Schedule();
 				
-				for(GenEdSubcat ges : GenEdSubcat.values()){
+				
+				TaskWindow taskWindow = new TaskWindow(MainFrame.this, "Loading Gen-Eds");
+				
+				TaskWindow.Task task = taskWindow.new Task(){
+
+					@Override
+					public void begin() {
+						Schedule s = new Schedule();
+						
+						double num = GenEdSubcat.values().length;
+						double ctr = 0;
+						for(GenEdSubcat ges : GenEdSubcat.values()){
+							
+							if(interrupted){
+								return;
+							}
+							
+							window.updateProgress(ges.toString(), ctr / ( 2.0 * num) );
+							ctr++;
+							//I already have these requirements done;
+							if(ges == GenEdSubcat.FSMA || ges == GenEdSubcat.FSOC ||
+									ges == GenEdSubcat.FSAW || ges == GenEdSubcat.FSAR ||
+									ges == GenEdSubcat.DSNS || ges == GenEdSubcat.DSNL || ges == GenEdSubcat.FSPW)
+							{
+								continue;
+							}			
+							
+							s.addGenEdSubcat(ges);
+						}
+						
+						window.updateProgress("Removing Duplicate Courses", 0.5f + 0.1);
+						s.removeDuplicateCourses();
+						
+						//Remove 8 AMs
+						window.updateProgress("Removing Early Class Times", 0.5f + 0.2);
+						s.removeSectionsBetween(new Time(8,0,false),new Time(9,59,false));
+						
+						window.updateProgress("Removing Low Gen-Ed Courses", 0.5f + 0.3);
+						s.removeCoursesWithLowerGenEdSubcats(2);
+						
+						window.updateProgress("Sorting", 0.5f + 0.4);
+						s.sortAlphabetical();
+						
+						window.updateProgress("Merging", 0.5f + 0.5);
+						project.getSchedule().merge(s);
+					}
 					
-					//I already have these requirements done;
-					if(ges == GenEdSubcat.FSMA || ges == GenEdSubcat.FSOC ||
-							ges == GenEdSubcat.FSAW || ges == GenEdSubcat.FSAR ||
-							ges == GenEdSubcat.DSNS || ges == GenEdSubcat.DSNL || ges == GenEdSubcat.FSPW)
-					{
-						continue;
-					}			
-					
-					System.out.println(ges);
-					s.addGenEdSubcat(ges);
-				}
+				};
 				
-				s.removeDuplicateCourses();
-				
-				//Remove 8 AMs
-				s.removeSectionsBetween(new Time(8,0,false),new Time(9,59,false));
-				
-				s.removeCoursesWithLowerGenEdSubcats(2);
-				s.sortAlphabetical();
-				
-				project.getSchedule().merge(s);
+				taskWindow.runTask(task);				
 			}
 
 		}
