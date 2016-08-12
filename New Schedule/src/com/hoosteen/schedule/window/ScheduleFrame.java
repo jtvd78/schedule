@@ -24,6 +24,10 @@ import com.hoosteen.schedule.GenEdSubcat;
 import com.hoosteen.schedule.Project;
 import com.hoosteen.schedule.Schedule;
 import com.hoosteen.schedule.Time;
+import com.hoosteen.schedule.settings.ScheduleSettings;
+import com.hoosteen.schedule.settings.ScheduleSettingsWindow;
+import com.hoosteen.settings.Settings;
+import com.hoosteen.settings.SettingsLoader;
 import com.hoosteen.tree.TreeComp;
 
 /**
@@ -31,7 +35,14 @@ import com.hoosteen.tree.TreeComp;
  * @author justin
  *
  */
-public class MainFrame extends JFrame{
+public class ScheduleFrame extends JFrame{
+	
+	private Project project;
+	
+	private TreeComp treeComp;
+	private JSplitPane splitPane;
+	
+	private static ScheduleSettings settings;
 	
 	/**
 	 *Default window width
@@ -43,23 +54,26 @@ public class MainFrame extends JFrame{
 	 */
 	public static final int defaultWindowHeight = 600;
 	
-	private Project project;
-	
-	private TreeComp treeComp;
-	private JSplitPane splitPane;
-	
-	private static final ArrayList<MainFrame> frameList = new ArrayList<MainFrame>();
+	private static final ArrayList<ScheduleFrame> frameList = new ArrayList<ScheduleFrame>();
 	
 	/**
 	 * Its the main function, what else can I say?
 	 * @param args - Command line arguments
 	 */
 	public static void main(String[] args){
-		com.hoosteen.graphics.Tools.setNativeUI();
+		com.hoosteen.Tools.setNativeUI();
+		
+		
+		settings = Settings.loadSettings(ScheduleSettings.class, com.hoosteen.schedule.settings.Resources.programName,
+				com.hoosteen.schedule.settings.Resources.version);
 		
 		//Load default project, and make frame
 		Project project = Project.makeDefaultProject();
 		newFrame(project);
+	}
+	
+	public static ScheduleSettings getSettings(){
+		return settings;
 	}
 	
 	/**
@@ -67,10 +81,10 @@ public class MainFrame extends JFrame{
 	 * Mainframe includes the ScheduleDisplay on the left, and the TreeComp on the right
 	 * @param project - Project to manage.
 	 */
-	public MainFrame(Project project){
+	public ScheduleFrame(Project project){
 		this.project = project;
 	
-		setJMenuBar(new MainMenuBar());
+		setJMenuBar(new ScheduleMenuBar(this));
 		getContentPane().setLayout(new BorderLayout());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
@@ -95,185 +109,10 @@ public class MainFrame extends JFrame{
 	 * @param project Project to manage
 	 */
 	public static void newFrame(Project project) {
-		frameList.add(new MainFrame(project));
-	}		
-	
-	public class MainMenuBar extends JMenuBar{		
-		
-		public MainMenuBar(){			
-			JMenu file = new JMenu("File");
-				JMenuItem newProject = new JMenuItem("New");
-				newProject.addActionListener(new NewProjectActionListener());
-				newProject.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
-				JMenuItem openProject = new JMenuItem("Open...");
-				openProject.addActionListener(new OpenProjectActionListener());
-				openProject.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
-				JMenuItem saveProject = new JMenuItem("Save");
-				saveProject.addActionListener(new SaveProjectActionListener());
-				saveProject.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
-				JMenuItem saveProjectAs = new JMenuItem("Save As...");
-				saveProjectAs.addActionListener(new SaveProjectAsActionListener());
-			file.add(newProject);
-			file.add(openProject);
-			file.add(saveProject);
-			file.add(saveProjectAs);
-			
-			JMenu courses = new JMenu("Courses");
-				JMenuItem addCourse = new JMenuItem("Add Course...");
-				addCourse.addActionListener(new AddCourseActionListener());
-				addCourse.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.ALT_MASK));
-				JMenuItem addGenEds = new JMenuItem("Add GenEds");
-				addGenEds.addActionListener(new AddGenEdsActionListener());
-				JMenuItem refreshCourses = new JMenuItem("Refresh Courses");
-				refreshCourses.addActionListener(new RefreshCoursesActionListener());
-			courses.add(addCourse);
-			courses.add(addGenEds);
-			courses.add(refreshCourses);
-			
-			JMenu help = new JMenu("Help");
-				JMenuItem about = new JMenuItem("About");
-				about.addActionListener(new ActionListener(){
-
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						JOptionPane.showMessageDialog(MainFrame.this, "Made by Justin Van Dort");
-					}
-					
-				});
-			help.add(about);
-			
-			add(file);
-			add(courses);
-			add(help);
-		}
-		
-		public class AddGenEdsActionListener implements ActionListener {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				
-				
-				TaskWindow taskWindow = new TaskWindow(MainFrame.this, "Loading Gen-Eds");
-				
-				TaskWindow.Task task = taskWindow.new Task(){
-
-					@Override
-					public void begin() {
-						Schedule s = new Schedule();
-						
-						double num = GenEdSubcat.values().length;
-						double ctr = 0;
-						for(GenEdSubcat ges : GenEdSubcat.values()){
-							
-							if(interrupted){
-								return;
-							}
-							
-							window.updateProgress(ges.toString(), ctr / ( 2.0 * num) );
-							ctr++;
-							//I already have these requirements done;
-							if(ges == GenEdSubcat.FSMA || ges == GenEdSubcat.FSOC ||
-									ges == GenEdSubcat.FSAW || ges == GenEdSubcat.FSAR ||
-									ges == GenEdSubcat.DSNS || ges == GenEdSubcat.DSNL || ges == GenEdSubcat.FSPW)
-							{
-								continue;
-							}			
-							
-							s.addGenEdSubcat(ges);
-						}
-						
-						window.updateProgress("Removing Duplicate Courses", 0.5f + 0.1);
-						s.removeDuplicateCourses();
-						
-						//Remove 8 AMs
-						window.updateProgress("Removing Early Class Times", 0.5f + 0.2);
-						s.removeSectionsBetween(new Time(8,0,false),new Time(9,59,false));
-						
-						window.updateProgress("Removing Low Gen-Ed Courses", 0.5f + 0.3);
-						s.removeCoursesWithLowerGenEdSubcats(2);
-						
-						window.updateProgress("Sorting", 0.5f + 0.4);
-						s.sortAlphabetical();
-						
-						window.updateProgress("Merging", 0.5f + 0.5);
-						project.getSchedule().merge(s);
-					}
-					
-				};
-				
-				taskWindow.runTask(task);				
-			}
-
-		}
-		
-		public class RefreshCoursesActionListener implements ActionListener {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				project.refresh();
-			}
-		}
-		
-		public class AddCourseActionListener implements ActionListener {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				
-				String id;
-				if((id = JOptionPane.showInputDialog("Enter a class ID")) != null){
-					project.getSchedule().addCourseById(id, Tools.getRandomColor());
-					repaint();
-				}
-			}
-		}
-		
-		public class NewProjectActionListener implements ActionListener {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				MainFrame.newFrame(Project.makeDefaultProject());
-			}
-
-		}
-
-		public class OpenProjectActionListener implements ActionListener {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				
-				JFileChooser fc = new JFileChooser();
-				int returnVal = fc.showOpenDialog(MainMenuBar.this);
-				
-				if (returnVal == JFileChooser.APPROVE_OPTION) {
-		            File file = fc.getSelectedFile();
-		            MainFrame.newFrame(Project.loadProject(file));
-		        }
-			}
-		}
-		
-		public class SaveProjectActionListener implements ActionListener {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				if(project.getLocation() == null){
-					new SaveProjectAsActionListener().actionPerformed(null);
-				}
-				project.save();
-			}
-		}
-		
-		public class SaveProjectAsActionListener implements ActionListener {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser fc = new JFileChooser();
-				int returnVal = fc.showSaveDialog(MainMenuBar.this);
-				
-				if (returnVal == JFileChooser.APPROVE_OPTION) {
-		            File file = fc.getSelectedFile();
-		            project.saveAs(file);
-		        }
-			}
-		}
+		frameList.add(new ScheduleFrame(project));
 	}
+
+	public Project getProject() {
+		return project;
+	}	
 }
