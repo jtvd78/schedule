@@ -1,7 +1,8 @@
-package com.hoosteen.schedule;
+package com.hoosteen.schedule.node;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
 import javax.swing.JPopupMenu;
@@ -9,7 +10,9 @@ import javax.swing.JPopupMenu;
 import org.jsoup.nodes.Element;
 
 import com.hoosteen.Tools;
+import com.hoosteen.schedule.Time;
 import com.hoosteen.tree.Node;
+
 /**
  * ClassTime. Can be a lecture or not, but has a start time, end time, and a set of days on which it occurs on. 
  * @author Justin
@@ -17,10 +20,29 @@ import com.hoosteen.tree.Node;
  */
 public class ClassTime extends Node{
 	
+	/**
+	 * When the ClassTime starts
+	 */
 	private Time startTime;
+	
+	/**
+	 * When the ClassTime ends
+	 */
 	private Time endTime;
+	
+	/**
+	 * The days that the ClassTime falls on
+	 */
 	private Time.Day[] days;
+	
+	/**
+	 * Whether or not the ClassTime is a lecture
+	 */
 	private boolean lecture;
+	
+	/**
+	 * The parent section of the ClassTime
+	 */
 	private Section section;
 	
 	/**
@@ -31,11 +53,19 @@ public class ClassTime extends Node{
 	 */
 	public ClassTime(Element e, Section section, boolean lecture){
 		
-		days = Time.getDays(e.select(".section-days").text());		
+		days = getDays(e.select(".section-days").text());		
 		startTime = new Time(e.select(".class-start-time").text());
 		endTime = new Time(e.select(".class-end-time").text());
 		this.lecture = lecture;
 		this.section = section;
+		
+		//Allows the user to right click on a ClassTime and remove any ClassTimes that conflict with this
+		this.addRightClickOption(new AbstractAction("Remove Conflicting Classtimes"){
+			public void actionPerformed(ActionEvent e) {
+				((Schedule)(getTopNode())).removeConflictingClasstimes(ClassTime.this);
+				//No repaint here. Need to add it somehow
+			}
+		});
 	}
 	
 	/**
@@ -54,21 +84,19 @@ public class ClassTime extends Node{
 	}
 	
 	/**
-	 * Returns a description of the ClassTime
+	 * Gets the course ID of the parent course
+	 * @return The course ID
 	 */
-	public String getDescription(){
-		return (lecture ? "Lecture: " : "Discussion: ") + Tools.arrToString(days, "") + "\nStart Time: " +
-				startTime.toString() + "\nEndTime: " +
-				endTime.toString();
-				
+	public String getCourseID(){
+		return section.getCourseID();
 	}
 	
 	/**
-	 * Returns the parent Section
-	 * @return A "owning" section
+	 * Gets the section ID of the parent section
+	 * @return the section ID
 	 */
-	public Section getSection(){
-		return section;
+	public String getSectionID(){
+		return section.getSectionID();
 	}
 	
 	/**
@@ -77,6 +105,15 @@ public class ClassTime extends Node{
 	 */
 	public boolean isLecture(){
 		return lecture;
+	}
+	
+	/**
+	 * Determines whether the input ClassTime has the same course as this ClassTime
+	 * @param classTime The ClassTime to test against
+	 * @return Whether or the ClassTimes have the same course
+	 */
+	public boolean hasSameCourse(ClassTime classTime) {
+		return classTime.section.hasSameCourse(section);
 	}
 	
 	/**
@@ -103,8 +140,14 @@ public class ClassTime extends Node{
 		return endTime;
 	}
 	
-	public Color getColor(){
-		return getParent().getColor();
+	
+	/**
+	 * Gets the display color of the ClassTime
+	 * @return The ClassTime's display color
+	 */
+	@Override
+	public Color getDisplayColor(){
+		return getParent().getDisplayColor();
 	}
 	 
 	/**
@@ -113,6 +156,7 @@ public class ClassTime extends Node{
 	 * @return The result
 	 */
 	public boolean conflicts(ClassTime test){
+		
 		//If two classTimes are the same, then they do no conflict, since they are the same classTime;
 		if(this == test){
 			return false;
@@ -135,23 +179,40 @@ public class ClassTime extends Node{
 			}
 		}
 		return false;
+	}	
+	
+	/**
+	 * Returns a description of the ClassTime
+	 */
+	public String getDescription(){
+		return (lecture ? "Lecture: " : "Discussion: ") + Tools.arrToString(days, "") + "\nStart Time: " +
+				startTime.toString() + "\nEndTime: " +
+				endTime.toString();
 	}
 
 	public String toString(){
 		return (lecture ? "Lecture " : "Discussion ") + "(" + startTime + " - " + endTime + " : " + Tools.arrToString(days,"") + ")";
 	}
 	
-	@Override
-	public void addPopupMenuOptions(JPopupMenu popupMenu){
-		
-		super.addPopupMenuOptions(popupMenu);
-		
-		//Action which will remove any nodes in the current tree that conflicts with the classtime. 
-		popupMenu.add(new AbstractAction("Remove Conflicting Classtimes"){
-			public void actionPerformed(ActionEvent e) {
-				((Schedule)(getTopNode())).removeConflictingClasstimes((ClassTime)ClassTime.this);
-				//No repaint here. Need to add it somehow
+	/**
+	 * Gets the days that a ClassTime occurs based on the a String which came from the Schedule of 
+	 * Classes webpage
+	 * @param daysString The string pulled from the Schedule of Classes page
+	 * @return An array of Days which the ClassTime occurs on
+	 */
+	public static Time.Day[] getDays(String daysString){
+		ArrayList<Time.Day> daysList = new ArrayList<Time.Day>();
+		for(Time.Day d : Time.Day.values()){
+			if(daysString.contains(d.toString())){
+				daysList.add(d);
 			}
-		});
+		}
+		
+		Time.Day[] dayArr = new Time.Day[daysList.size()];
+		for(int i = 0; i < dayArr.length; i++){
+			dayArr[i] = daysList.get(i);
+		}
+		
+		return dayArr;
 	}
 }

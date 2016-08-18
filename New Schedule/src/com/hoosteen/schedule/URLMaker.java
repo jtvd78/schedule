@@ -1,5 +1,9 @@
 package com.hoosteen.schedule;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 /**
  * Makes URL Strings for purposes of connecting to UMD Schedule of Classes. 
  * @author justin
@@ -41,7 +45,42 @@ public class URLMaker {
 	 * @return the String of the URL of a given course
 	 */
 	public static String getCourseURL(String courseId) {
+		
+		//The courseID must be as least 4 letters long to not throw an error
+		//Crude check but this stops errors from occurring when a user inputs an incorrect courseId
+		if(courseId.length() < 4){
+			return null;
+		}	
+		
 		return mainPath + timePeriod + "/" + courseId.substring(0, 4) + "/" + courseId;
 	}
+
 	
+	/**
+	 * Confirms weather a course URL will load without throwing an error
+	 * @param course The CourseID of the course to test
+	 * @return True for a successful loading, False for otherwise
+	 */
+	public static boolean confirmCourse(String course) {
+		
+		//There's gotta be a 4 letter beginning portion
+		if(course.length() < 4){
+			return false;
+		}		
+		
+		//URL String to text
+		String urlString = getCourseURL(course);
+		
+		//Test it
+		try {
+			new URL(urlString).openStream();
+		} catch (MalformedURLException e1) {
+			return false;
+		} catch (IOException e) {
+			return false;
+		}
+		
+		//Success
+		return true;		
+	}	
 }

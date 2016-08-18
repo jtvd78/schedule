@@ -12,9 +12,9 @@ import javax.swing.JComponent;
 
 import com.hoosteen.graphics.GraphicsWrapper;
 import com.hoosteen.graphics.Rect;
-import com.hoosteen.schedule.ClassTime;
-import com.hoosteen.schedule.Schedule;
 import com.hoosteen.schedule.Time;
+import com.hoosteen.schedule.node.ClassTime;
+import com.hoosteen.schedule.node.Schedule;
 import com.hoosteen.tree.Node;
 import com.hoosteen.tree.TreeComp;
 
@@ -25,42 +25,93 @@ import com.hoosteen.tree.TreeComp;
  */
 public class ScheduleDisplay extends JComponent{
 	
-	//Random Instance Variables
+	/**
+	 * Current location of the mouse on the ScheduleDisplay
+	 */
 	Point mouse;
+	
+	/**
+	 * Schedule to be displayed in the ScheduleDisply
+	 */
 	Schedule schedule;
+	
+	/**
+	 * Whether or not to display the current time
+	 * Set to disabled when the mouse leaves the component
+	 */
 	boolean drawCurrentTime = true;
 	
+	/**
+	 * TreeComp on the right side of the screen
+	 */
 	TreeComp treeComp;
 	
-	//Helping Variables
+	/**
+	 * Width of component
+	 */
 	int width;
+	
+	/**
+	 * Height of component
+	 */
 	int height;
-	double pixelPerDayY;
+	
+	/**
+	 * Width of each day
+	 */
+	double dayWidth;
+	
+	/**
+	 * Minutes per every y-pixel
+	 */
 	double minPerPixelY;
 	
 	//Settings
-	int hoverTransparency = 50; //Out of 255
-	double startTime = 6; //0.0-24.0 - 6.5 would be 6:30 
-	double endTime = 9 + 12;
 	
 	/**
-	 * Constructor
-	 * @param schedule - Schedule to display
+	 * Transparency of tranparent classTimes
 	 */
-	public ScheduleDisplay(Schedule schedule, TreeComp tc){
+	int hoverTransparency = 255/3; //Out of 255
+	
+	/**
+	 * Time at the top of the ScheduleDisplay
+	 */
+	double startTime = 6; //0.0-24.0 - 6.5 would be 6:30 
+	
+	/**
+	 * Time at the bottom of the ScheduleDisplay
+	 */
+	double endTime = 9 + 12;
+
+	/**
+	 * Color to draw the time string
+	 */
+	Color timeStringColor = Color.RED;
+	
+	/**
+	 * Color of background grid
+	 */
+	Color backgroundGridColor = new Color(70,70,70);
+	
+	
+	/**
+	 * Creates a ScheduleDisplay with a Schedule and a TreeComp
+	 * @param schedule Schedule to display
+	 * @param treeComp TreeComp at the right of the screen
+	 */
+	public ScheduleDisplay(Schedule schedule, TreeComp treeComp){
+		
+		this.treeComp = treeComp;
 		this.schedule = schedule;
 		
-		this.treeComp = tc;
-		
-		//Init mouse
+		//Init mouse point
 		mouse = new Point(0,0);
 		
 		//Add input listeners
 		Listener l = new Listener();
 		addMouseMotionListener(l);
 		addMouseListener(l);
-	}
-	
+	}	
 	
 	/**
 	 * Updates select instance variables
@@ -69,8 +120,8 @@ public class ScheduleDisplay extends JComponent{
 		width = getWidth();
 		height = getHeight();
 		
-		minPerPixelY = (endTime - startTime)*60.0/height;
-		pixelPerDayY = ((double)width)/5;	
+		dayWidth = width/5.0;
+		minPerPixelY = (endTime - startTime)*60.0/height;			
 	}
 	
 	
@@ -86,7 +137,7 @@ public class ScheduleDisplay extends JComponent{
 		//Draw background
 		g.drawBackground();
 		
-		//Loop through courses. Draw 
+		//Loop through courses. Draw each ClassTime
 		for(Node course : schedule){
 			for(Node section : course){
 				for(Node classTime : section){
@@ -96,12 +147,6 @@ public class ScheduleDisplay extends JComponent{
 				}
 			}
 		}
-		
-		/*
-		if(treeComp.getSelectedNode() != null && treeComp.getSelectedNode().){
-			g.drawClassTime(treeComp.getSelectedNode());
-		}
-		*/
 		
 		//Current Time marker
 		if(drawCurrentTime){
@@ -116,7 +161,7 @@ public class ScheduleDisplay extends JComponent{
 	public boolean isTransparent(Node n){
 		
 		//The top node is never transparent
-		//I wouldn't say never, but for the purposes of this class, it wont
+		//I wouldn't say never, but for the purposes of this class, it won't be
 		//I will come back and change this if I need to. 
 		if(n.getLevel() == 0){
 			return false;
@@ -149,7 +194,7 @@ public class ScheduleDisplay extends JComponent{
 			g.fillRect(0, 0, width, height);			
 			
 			//Vertical Lines
-			g.setColor(new Color(70,70,70));
+			g.setColor(backgroundGridColor);
 			for(int i = 0; i < 5; i++){
 				g.drawLine(i*getWidth()/5,0,i*getWidth()/5,getHeight());
 			}
@@ -163,40 +208,39 @@ public class ScheduleDisplay extends JComponent{
 		}
 		
 		/**
-		 * Draws a ClassTime
-		 * @param to this Graphics object
-		 * @param with this ClassTime
-		 * @param outlined in thic color. 
+		 * Draws a ClassTimeto this Graphics object with this ClassTime outlined in their color. 
+		 * @param ct ClassTime to draw
 		 */
 		void drawClassTime(ClassTime ct){
 			
 			//Outline color is red, unless the class is a lecture. Then it is green.
-			Color outline = Color.RED;
+			Color outlineColor = Color.RED;
 			if(ct.isLecture()){
-				outline = Color.GREEN;
+				outlineColor = Color.GREEN;
 			}			
 			
+			
+			//Loop through each of the ClassTime's days
 			for(Time.Day d : ct.getDayList()){
 				
-				//Timing of classtime
+				//Timing of ClassTime
 				int day = getDayInt(d);
 				int ctStartMin = ct.getStartTime().toMinutes();
 				int ctEndMin = ct.getEndTime().toMinutes();
 				int classLengthMin = ctEndMin-ctStartMin;
 				
 				//Creates the Rect for this clastime
-				int ctX = (int)(day*pixelPerDayY);
+				int ctX = (int)(day*dayWidth);
 				int ctY = (int)((ctStartMin-startTime*60.0)/minPerPixelY);
-				int ctWidth = (int)pixelPerDayY;
-				int ctHeight = (int)(classLengthMin/minPerPixelY);
-				
+				int ctWidth = (int)dayWidth;
+				int ctHeight = (int)(classLengthMin/minPerPixelY);				
 				Rect ctRect = new Rect(ctX, ctY, ctWidth, ctHeight);
 				
-				//Make classtime transparent
-				Color ogColor = ct.getColor();
+				//Make ClassTime transparent if need be
+				Color ogColor = ct.getDisplayColor();
 				if(isTransparent(ct)){
-					setColor(new Color(ogColor.getRed(),ogColor.getGreen(), ogColor.getBlue(), hoverTransparency));
-					outline = new Color(outline.getRed(), outline.getGreen(), outline.getBlue(), hoverTransparency);
+					setColor( new Color(ogColor.getRed(), ogColor.getGreen(), ogColor.getBlue(), hoverTransparency));
+					outlineColor = new Color(outlineColor.getRed(), outlineColor.getGreen(), outlineColor.getBlue(), hoverTransparency);
 				}else{
 					setColor(ogColor);
 				}			
@@ -205,12 +249,12 @@ public class ScheduleDisplay extends JComponent{
 				fillRect(ctRect);
 				
 				//Outline
-				setColor(outline);
+				setColor(outlineColor);
 				drawRect(ctRect, 2);
 				
 				//Draw ClassTime info
 				setColor(Color.black);
-				String toDraw = ct.getSection().getCourse().getCourseID() + "\n" + ct.getSection().getSectionID();
+				String toDraw = ct.getCourseID() + "\n" + ct.getSectionID();
 				drawMultiLineCenteredString(toDraw, new Rect(ctX, ctY, ctWidth, ctHeight));
 			}
 		}
@@ -222,20 +266,26 @@ public class ScheduleDisplay extends JComponent{
 			
 			int mouseY = (int) mouse.getY();			
 			
+			//String to draw
 			String timeString = new Time((int)(mouseY*minPerPixelY + startTime * 60.0)).toString();
+			
+			//Get string width and construct Rect to display behind the String
 			int stringWidth = (int) g.getFontMetrics().getStringBounds(timeString, g).getWidth();
 			Rect r = new Rect((int)mouse.getX() + 10, (int)( mouse.getY()), stringWidth + 10, 20);
 
+			//Fill the Rect with half transparency
 			g.setColor(new Color(0,0,0,128));
 			fillRect(r);
 			
-			g.setColor(Color.red);
+			//Draw the string and the marker line
+			g.setColor(timeStringColor);
 			g.drawLine(0, mouseY, width, mouseY);	
 			drawString(timeString, r);	
 		}
 	}
 	
 	/**
+	 * Returns the column number of a given day (starts at 0)
 	 * @param d Day to get int of
 	 * @return Given a day, returns the day of the week, excluding the weekends. Defaults to -1 if day does not exist. 
 	 */

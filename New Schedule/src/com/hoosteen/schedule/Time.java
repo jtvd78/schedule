@@ -1,7 +1,6 @@
 package com.hoosteen.schedule;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  * Keeps track of time. Has Day, Hour, Minute, and AM/PM
@@ -18,10 +17,10 @@ public class Time implements Serializable{
 	public enum Day{
 		Su, M, Tu, W, Th, F, Sa
 	}
-
-	int hour;
-	int min;
-	boolean PM;
+	
+	private int min;
+	private int hour;	
+	private boolean PM;
 	
 	/**
 	 * Initializes a time with:
@@ -36,7 +35,7 @@ public class Time implements Serializable{
 	}
 	
 	/**
-	 * Creates a time with an integer: W
+	 * Creates a time with an integer:
 	 * @param minutes - The time from the beginning of the day
 	 */
 	public Time(int minutes){
@@ -105,22 +104,5 @@ public class Time implements Serializable{
 		result += hour * 60;
 		result += min;
 		return result;
-	}
-	
-	//I don't like this being here. That's why its not documented
-	public static Time.Day[] getDays(String daysString){
-		ArrayList<Time.Day> daysList = new ArrayList<Time.Day>();
-		for(Time.Day d : Time.Day.values()){
-			if(daysString.contains(d.toString())){
-				daysList.add(d);
-			}
-		}
-		
-		Time.Day[] dayArr = new Time.Day[daysList.size()];
-		for(int i = 0; i < dayArr.length; i++){
-			dayArr[i] = daysList.get(i);
-		}
-		
-		return dayArr;
 	}
 }
