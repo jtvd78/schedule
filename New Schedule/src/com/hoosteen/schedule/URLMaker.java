@@ -19,8 +19,8 @@ public class URLMaker {
 	/**
 	 * Used within the URL to specify which time period to pull from the SoC server
 	 */
-	private static final String timePeriod = "201608";
-	
+	private static final String timePeriod = "201701";
+	//private static final String timePeriod = "201608";
 	/**
 	 * Gets the URL of the specified GenEd.
 	 * @param ges - GenEdSubcat to get URL of
