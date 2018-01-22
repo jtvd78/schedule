@@ -245,14 +245,14 @@ public class Course extends Node {
 		//Select each gen ed
 		Elements cats = e.select(".course-subcategory");
 		
-		//Create the containing array
-		GenEdSubcat[] out = new GenEdSubcat[cats.size()]; 
+		ArrayList<GenEdSubcat> out = new ArrayList<GenEdSubcat>();
+		
 		
 		//Loop through each GenEd Element and initialize the GenEd
 		for(int i = 0; i < cats.size(); i++){
 			for(GenEdSubcat ges : GenEdSubcat.values()){
 				if(cats.get(i).text().contains(ges.toString())){
-					out[i] = ges;
+					out.add(ges);
 				}
 			}
 		}
@@ -261,8 +261,9 @@ public class Course extends Node {
 		//Does so by adding 1 to the number of commas in the GenEd string
 		String str = e.select(".gen-ed-codes-group").text();		
 		numOfSubCats = str.length() - str.replace(",", "").length() + 1;
+	//	numOfSubCats = out.size();
 		
-		return out;
+		return out.toArray(new GenEdSubcat[out.size()]);
 	}
 	
 	/**

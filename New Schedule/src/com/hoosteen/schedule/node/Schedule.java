@@ -14,8 +14,10 @@ import org.jsoup.select.Elements;
 
 import com.hoosteen.Tools;
 import com.hoosteen.schedule.GenEdSubcat;
+import com.hoosteen.schedule.ScheduleStart;
 import com.hoosteen.schedule.Time;
 import com.hoosteen.schedule.URLMaker;
+import com.hoosteen.schedule.settings.ScheduleSettings;
 import com.hoosteen.tree.Node;
 
 public class Schedule extends Node{
@@ -122,14 +124,37 @@ public class Schedule extends Node{
 		
 		ArrayList<Course> removeList = new ArrayList<Course>();
 		
+		ScheduleSettings settings = ScheduleStart.getSettings();
+		GenEdSubcat[] enabled = settings.getEnabledGenEds();
+		
+		
+		ArrayList<GenEdSubcat> enabledGenEds = new ArrayList<>(enabled.length);
+		for(GenEdSubcat sub : enabled) {
+			enabledGenEds.add(sub);
+		}
+		
 		//Loop through every course
 		for(Node cour : this){
 			Course course = (Course) cour;
 			
-			//Save the course if it has less than the given GenEd Count
-			if(course.getNumOfSubCats() < lowerThan){
+			int count = 0;
+			
+			GenEdSubcat[] courseCats = course.getSubCats();
+			
+			for(int c = 0; c < courseCats.length; c++){
+				if(enabledGenEds.contains(courseCats[c])){
+					count++;
+					if(count == lowerThan){
+						break;
+					}
+				}
+			}
+			
+			if(count < lowerThan || course.getNumOfSubCats() < 2){
 				removeList.add(course);
 			}
+			
+			
 		}
 		
 		//Remove all pre-found Sections
